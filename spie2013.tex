@@ -1,0 +1,96 @@
+%  article.tex (Version 3.3, released 19 January 2008)
+%  Article to demonstrate format for SPIE Proceedings
+%  Special instructions are included in this file after the
+%  symbol %>>>>
+%  Numerous commands are commented out, but included to show how
+%  to effect various options, e.g., to print page numbers, etc.
+%  This LaTeX source file is composed for LaTeX2e.
+
+%  The following commands have been added in the SPIE class 
+%  file (spie.cls) and will not be understood in other classes:
+%  \supit{}, \authorinfo{}, \skiplinehalf, \keywords{}
+%  The bibliography style file is called spiebib.bst, 
+%  which replaces the standard style unstr.bst.  
+
+\documentclass[]{spie}  %>>> use for US letter paper
+%%\documentclass[a4paper]{spie}  %>>> use this instead for A4 paper
+%%\documentclass[nocompress]{spie}  %>>> to avoid compression of citations
+%% \addtolength{\voffset}{9mm}   %>>> moves text field down
+%% \renewcommand{\baselinestretch}{1.65}   %>>> 1.65 for double spacing, 1.25 for 1.5 spacing 
+%  The following command loads a graphics package to include images 
+%  in the document. It may be necessary to specify a DVI driver option,
+%  e.g., [dvips], but that may be inappropriate for some LaTeX 
+%  installations. 
+\usepackage[]{graphicx}
+
+\usepackage{subfig}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\input{functions.tex}
+
+\title{Interactive Grain Image Segmentation using Graph Cut Algorithms} 
+
+%>>>> The author is responsible for formatting the 
+%  author list and their institutions.  Use  \skiplinehalf 
+%  to separate author list from addresses and between each address.
+%  The correspondence between each author and his/her address
+%  can be indicated with a superscript in italics, 
+%  which is easily obtained with \supit{}.
+
+\author{Jarrell Waggoner\supit{a}, Youjie Zhou\supit{a}, Jeff Simmons\supit{b}, Ayman Salem\supit{b}, \\ Marc De Graef\supit{c}, and Song Wang\supit{a}
+\skiplinehalf
+\supit{a}University of South Carolina, Columbia, SC 29208, USA; \\
+\supit{b}Materials and Manufacturing Directorate, Air Force Research
+Labs, Dayton, OH 45433, USA; \\
+\supit{c} Carnegie Mellon University, Department of Materials Science and Engineering, 5000 Forbes Avenue, Pittsburgh, PA, 15213, USA
+}
+
+%>>>> Further information about the authors, other than their 
+%  institution and addresses, should be included as a footnote, 
+%  which is facilitated by the \authorinfo{} command.
+
+\authorinfo{Further author information: (Send correspondence to J.W.)\\
+J.W.: E-mail: waggonej@email.sc.edu, Telephone: 847-261-4747\\ 
+Y.Z.: E-mail: zhou42@email.sc.edu \\ 
+J.S.: E-mail: jeff.simmons@wpafb.af.mil \\ 
+A.S.: E-mail: ayman.salem.ctr@wpafb.af.mil \\ 
+M.G.: E-mail: degraef@cmu.edu \\
+S.W.: E-mail: songwang@cec.sc.edu, Telephone: 803-777-2487}
+%%>>>> when using amstex, you need to use @@ instead of @
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%>>>> uncomment following for page numbers
+% \pagestyle{plain}    
+%>>>> uncomment following to start page numbering at 301 
+%\setcounter{page}{301} 
+ 
+  \begin{document} 
+  \maketitle 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{abstract}
+% \input{spie-abstract.tex}
+\input{abstract.tex}
+\end{abstract}
+
+%>>>> Include a list of keywords after the abstract 
+
+\keywords{Segmentation, Materials, Propagation, Interactive, Graph-Cut}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+\label{sec:intro}
+
+
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+% \bibliography{matsci}
+% \bibliographystyle{spiebib}   %>>>> makes bibtex use spiebib.bst
+
+\end{document} 
