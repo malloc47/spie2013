@@ -2,27 +2,23 @@ proj = spie2013
 
 all: $(proj).pdf
 
-# $(proj).pdf: *.tex *.bib fig/*.fig
-# 	-ln -s ~/usr/include/papers/cvpr11/* .
-# 	-ln -s ~/usr/include/papers/iccv11/* .
-# 	cd sup/ ; make
-# 	cd fig/ ; make
-#	pdflatex $(proj) 
-#	bibtex $(proj) 
-#	pdflatex $(proj) 
-#	pdflatex $(proj) 
+$(proj).pdf: *.tex *.bib # fig/*.fig
+	pdflatex $(proj) 
+	bibtex $(proj) 
+	pdflatex $(proj) 
+	pdflatex $(proj) 
 
-$(proj).pdf:$(proj).ps
-	ps2pdf $(proj).ps
+# $(proj).pdf:$(proj).ps
+# 	ps2pdf $(proj).ps
 
-$(proj).ps:$(proj).dvi
-	dvips -t letter $(proj).dvi -o $(proj).ps
+# $(proj).ps:$(proj).dvi
+# 	dvips -t letter $(proj).dvi -o $(proj).ps
 
-$(proj).dvi: *.tex *.bib
-	latex $(proj)
-	-bibtex $(proj)
-	latex $(proj)
-	latex $(proj)
+# $(proj).dvi: *.tex *.bib
+# 	latex $(proj)
+# 	-bibtex $(proj)
+# 	latex $(proj)
+# 	latex $(proj)
 
 view:
 	evince $(proj).pdf &
