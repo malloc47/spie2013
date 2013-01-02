@@ -159,12 +159,11 @@ fully-automated fashion, however, they do not incorporate any
 interaction for manual refinement by a user.  Since some of these
 approaches may require significant time to run, requiring the user to
 examine and correct problems only after the algorithm is complete may
-not be practical if rapid-turnaround segmentation is desired.
-Conversely, the interactive segmentation techniques discussed
-previously do not incorporate any specific domain knowledge about
-materials images, and thus may require additional effort on the part
-of the user than may otherwise be needed when segmenting a materials
-image volume.
+not be practical if rapid refinement is desired.  Conversely, the
+interactive segmentation techniques discussed previously do not
+incorporate any specific domain knowledge about materials images, and
+thus may require additional effort on the part of the user than may
+otherwise be needed when segmenting a materials image volume.
 
 In this paper, we present an interactive segmentation approach to
 segment materials science image volumes.  We show that an existing
@@ -438,13 +437,13 @@ the edge of this large segment likely indicates the resulting new
 segment is small.  Conversely, annotating closer to the center of this
 large segment likely indicates the resulting new segment is large
 (perhaps $\frac{1}{2}$ the size of the containing segment).  The ideal
-selection of $s$ and $d$ are shown for a particular selection of $c$
-in \figsub{param}{c}.
+selection of $s$ is shown for a particular choice of $c$ in
+\figsub{param}{c}.
 \begin{figure}[htbp]
 \centering
 \subfloat[]{\includegraphics[width=0.30\linewidth]{fig/cca}}
 \hspace{0.1em}
-\subfloat[]{\includegraphics[width=0.30\linewidth]{fig/ccc.pdf}}
+\subfloat[]{\includegraphics[width=0.30\linewidth]{fig/ccf.pdf}}
 \hspace{0.1em}
 \subfloat[]{\includegraphics[width=0.30\linewidth]{fig/ccb}}
 \caption{} \label{fig:param}
@@ -453,27 +452,39 @@ in \figsub{param}{c}.
 To obtain an estimation of $s$ we begin by setting $s$ a distance $0$
 from the annotated point $c$.  We incrementally increase $s$ by a
 small $\epsilon$ amount until the entire circle is within $\epsilon$
-of the boundary of the containing segment.  Similar to this, we obtain
-an estimation of $d$ by starting it at the estimated size of $s$, and
-then incrementally increase it by $\epsilon$.  There is not a simple
-stopping criterion to know undoubtedly that $d$ covers the entire
-substructure desired.  However, we observe that if we separate the
-containing segment into a background, and everything outside of the
-containing segment into foreground, and we stop increasing $d$ when it
-encompasses two, connected foreground regions, we tend to obtain a
-large-enough value for $d$.  If this stopping condition never occurs,
-we enforce a fixed maximum for $d$.  An illustration is given in
-\fig{d-size}, where the $d$ size (blue circle) is not large enough in
-\figsub{d-size}{a} and contains only a single connected foreground
-component, whereas in \figsub{d-size}{b}, the $d$ size contains two
-disjoint foreground regions, thus meeting the stopping criteria.
-\begin{figure}[htbp]
-\centering
-\subfloat[Single foreground component]{\includegraphics[width=0.30\linewidth]{fig/cce}}
-\hspace{0.1em}
-\subfloat[Two foreground components]{\includegraphics[width=0.30\linewidth]{fig/ccd.pdf}}
-\caption{} \label{fig:d-size}
-\end{figure}
+distance of the boundary of the containing segment, as shown by the
+arrow in \figsub{ex}{b}.  Since the majority of newly-appearing
+structures are near the boundary of another structure (near a
+``Y''-junction edge between structures), this automatic approach
+well-handles such cases.  When the annotated point $c$ falls directly
+on an edge, we default to requiring user-supplied paramters in these
+less-common cases.  For simplicty, this approach reduces to setting
+the distance $s$ to the nearest boundary pixel.  For estimating $d$,
+we scale it according to the value of $s$.  Specifically, we set $d =
+2\cdot s$.  As shown in \sect{ex}, this approach saves both time and
+effort.
+
+%% Similar to this, we obtain
+%% an estimation of $d$ by starting it at the estimated size of $s$, and
+%% then incrementally increase it by $\epsilon$.  There is not a simple
+%% stopping criterion to know undoubtedly that $d$ covers the entire
+%% substructure desired.  However, we observe that if we separate the
+%% containing segment into a background, and everything outside of the
+%% containing segment into foreground, and we stop increasing $d$ when it
+%% encompasses two, connected foreground regions, we tend to obtain a
+%% large-enough value for $d$.  If this stopping condition never occurs,
+%% we enforce a fixed maximum for $d$.  An illustration is given in
+%% \fig{d-size}, where the $d$ size (blue circle) is not large enough in
+%% \figsub{d-size}{a} and contains only a single connected foreground
+%% component, whereas in \figsub{d-size}{b}, the $d$ size contains two
+%% disjoint foreground regions, thus meeting the stopping criteria.
+%% \begin{figure}[htbp]
+%% \centering
+%% \subfloat[Single foreground component]{\includegraphics[width=0.30\linewidth]{fig/cce}}
+%% \hspace{0.1em}
+%% \subfloat[Two foreground components]{\includegraphics[width=0.30\linewidth]{fig/ccd.pdf}}
+%% \caption{} \label{fig:d-size}
+%% \end{figure}
 
 \section{Experiments}
 \label{sec:ex}
@@ -485,21 +496,24 @@ measure the effort (\ie number of clicks) used to segment each slice
 in the dataset, as well as the overall time expended by the user to
 segment a slice.  The previous propagation approach~\cite{waggoner:11}
 requires a complete segmentation as an initialization, so we include
-the time required to segment this slice in the effort and time required.
+the time required to segment this slice in the effort and time
+required.  We present the proposed method both with and without using
+the automatic parameter estimation discussed in \sect{param}.
 
 For comparison, we use the readily-available ``intelligent scissors''
 method~\cite{mortensen:95}.  Using this tool, we independently segment
 all 11 slices from the same dataset, comparing effort (number of
-clicks) and time.  Finally, we produce a hybrid of the proposed method
-and the intelligent scissors method, which we call ``intelligent
-scissors + propagation'' in \fig{ex}.  This approach uses the method
-from~\cite{waggoner:11} to propagate a segmentation from an initial
-slice to the remaining slices, but it uses the intelligent scissors
-tool~\cite{mortensen:95} to carry out the interactive component
-instead of the interactive tools proposed in this paper.
+clicks) and time.  In addition, we produce a hybrid of the proposed
+method and the intelligent scissors method, which we call
+``intelligent scissors + propagation'' in \fig{ex}.  This approach
+uses the method from~\cite{waggoner:11} to propagate a segmentation
+from an initial slice to the remaining slices, but it uses the
+intelligent scissors tool~\cite{mortensen:95} to carry out the
+interactive component instead of the interaction proposed in this
+paper.
 
 The results of this comparative experiment are shown in \fig{ex}.
-Note that the first slice in the propagated methods is used as an
+Note that the first slice in propagated methods is used as an
 initialization, so it requires significantly more effort and time to
 segment compared with the remaining slices.
 \begin{figure}[htbp]
@@ -523,6 +537,20 @@ but it still requires greater effort than the proposed method.
 
 \section{Conclusion}
 \label{sec:conclusion}
+
+We have presented an interactive segmentation method extended from a
+propagated approach used in previous work.  By allowing the user to
+interactively handle both over and undersegmentation, we show that the
+time required to segment a materials volume, as well as the overall
+effort (number of clicks) needed for interaction, is much less than
+the comparision ``intelligent scissors'' method used in popular image
+processing tools.  By localizing the proposed interaction to local
+regions within the image, we are able to obtain a fast, yet robust
+means to handle segmentation errors within materials images that
+well-handles ambiguity within this type of image.  Finally, by using a
+simple estimate for the small number of parameters required by the
+interaction, we show that we can further reduce the amount of time and
+effort needed by the proposed approach.
 
 \bibliography{matsci}
 \bibliographystyle{spiebib}   %>>>> makes bibtex use spiebib.bst
