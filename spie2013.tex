@@ -108,7 +108,7 @@ learned from the user interactions~\cite{boykov:01b, unger:08,
   rother:04}.  Other approaches use morphological operations
 (watershed)~\cite{straehle:12}, rely on
 co-segmentation~\cite{batra:10}, or incorporate machine-learning to
-aid in the interactive process~\cite{top:11, kuant:12}.  These methods
+aid in the interactive process~\cite{top:11, kuang:12}.  These methods
 have been applied to a number of domains, including natural
 images~\cite{rother:04}, medical images~\cite{boykov:00}, and
 neuroimages~\cite{straehle:11, straehle:12}.
@@ -490,10 +490,18 @@ the time required to segment this slice in the effort and time required.
 For comparison, we use the readily-available ``intelligent scissors''
 method~\cite{mortensen:95}.  Using this tool, we independently segment
 all 11 slices from the same dataset, comparing effort (number of
-clicks) and time.  The results of this comparative experiment are
-shown in \fig{ex}.  Note that the first slice of the proposed method
-is used as an initialization, so it requires significantly more effort
-and time to segment compared with the remaining slices.
+clicks) and time.  Finally, we produce a hybrid of the proposed method
+and the intelligent scissors method, which we call ``intelligent
+scissors + propagation'' in \fig{ex}.  This approach uses the method
+from~\cite{waggoner:11} to propagate a segmentation from an initial
+slice to the remaining slices, but it uses the intelligent scissors
+tool~\cite{mortensen:95} to carry out the interactive component
+instead of the interactive tools proposed in this paper.
+
+The results of this comparative experiment are shown in \fig{ex}.
+Note that the first slice in the propagated methods is used as an
+initialization, so it requires significantly more effort and time to
+segment compared with the remaining slices.
 \begin{figure}[htbp]
 \centering
 \subfloat[Effort]{\includegraphics[width=0.48\linewidth]{fig/eval}}
@@ -504,13 +512,14 @@ and time to segment compared with the remaining slices.
   segment the 11 sample slices.  Smaller values are better, for both
   figures.} \label{fig:ex}
 \end{figure}
-
 From \fig{ex}, the proposed method's propagation approach combined
 with the interactivity discussed in this paper allows much more rapid
 segmentation time ($< 5$ minutes in most cases) and with much less
-effort ($< 100$ clicks in most cases).  The intelligent scissors
-method, without the benefit of an initialization, requires
-significantly more time and effort.
+effort ($< 100$ clicks in most cases) compared with the unpropagated
+intelligent scissors method.  The intelligent scissors method, without
+the benefit of an initialization, requires significantly more time and
+effort.  The hybrid method fares better than the unpropaged method,
+but it still requires greater effort than the proposed method.
 
 \section{Conclusion}
 \label{sec:conclusion}
