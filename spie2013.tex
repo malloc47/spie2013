@@ -478,6 +478,40 @@ disjoint foreground regions, thus meeting the stopping criteria.
 \section{Experiments}
 \label{sec:ex}
 
+To evaluate the proposed interactive segmentation method, we use it to
+segment a sequence of~$11$ microscopic titanium
+images~\cite{rowenhorst:10} provided by Dave Rowenhorst, NRL.  We
+measure the effort (\ie number of clicks) used to segment each slice
+in the dataset, as well as the overall time expended by the user to
+segment a slice.  The previous propagation approach~\cite{waggoner:11}
+requires a complete segmentation as an initialization, so we include
+the time required to segment this slice in the effort and time required.
+
+For comparison, we use the readily-available ``intelligent scissors''
+method~\cite{mortensen:95}.  Using this tool, we independently segment
+all 11 slices from the same dataset, comparing effort (number of
+clicks) and time.  The results of this comparative experiment are
+shown in \fig{ex}.  Note that the first slice of the proposed method
+is used as an initialization, so it requires significantly more effort
+and time to segment compared with the remaining slices.
+\begin{figure}[htbp]
+\centering
+\subfloat[Effort]{\includegraphics[width=0.48\linewidth]{fig/eval}}
+\hspace{0.1em}
+\subfloat[Time]{\includegraphics[width=0.48\linewidth]{fig/eval_time}}
+\caption{Evaluation of \textbf{(a)} the amount of effort (number of
+  clicks) and \textbf{(b)} time taken for a user to interactively
+  segment the 11 sample slices.  Smaller values are better, for both
+  figures.} \label{fig:ex}
+\end{figure}
+
+From \fig{ex}, the proposed method's propagation approach combined
+with the interactivity discussed in this paper allows much more rapid
+segmentation time ($< 5$ minutes in most cases) and with much less
+effort ($< 100$ clicks in most cases).  The intelligent scissors
+method, without the benefit of an initialization, requires
+significantly more time and effort.
+
 \section{Conclusion}
 \label{sec:conclusion}
 
