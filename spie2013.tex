@@ -61,7 +61,7 @@ A.S.: E-mail: ayman.salem.ctr@wpafb.af.mil \\
 M.G.: E-mail: degraef@cmu.edu \\
 S.W.: E-mail: songwang@cec.sc.edu, Telephone: 803-777-2487}
 %%>>>> when using amstex, you need to use @@ instead of @
- 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %>>>> uncomment following for page numbers
@@ -92,9 +92,11 @@ and has seen heightened interest recently\cite{kuang:12,straehle:12}.
 While traditional segmentation seeks to identify objects/structures
 within an image in a fully-automated fashion, interactive
 segmentation, similar to Active Learning~\cite{settles:09},
-accomplishes the same goal using a sparse number of user interactions.
-These interactions may take on different forms, and may include
-drawing a bounding box~\cite{rother:04}, roughly outlining a
+accomplishes the same goal using a sparse number of user interactions
+which are incorporated directly into the algorithm, including the
+approaches/models used to perform the segmentation.  These
+interactions may take on different forms, and may include drawing a
+bounding box~\cite{rother:04}, roughly outlining a
 boundary~\cite{mortensen:95}, or drawing brush strokes inside and/or
 outside the object of interest~\cite{santner:10, unger:08, boykov:01b,
   vezhnevets:95}.  A desired property of an interactive segmentation
@@ -104,12 +106,12 @@ simultaneously providing immediate feedback to the user on every
 interaction.
 
 Many existing methods segment the object of interest using a model
-learned from the user interactions~\cite{boykov:01b, unger:08,
-  rother:04}.  Other approaches use morphological operations
-(watershed)~\cite{straehle:12}, rely on
-co-segmentation~\cite{batra:10}, or incorporate machine-learning to
-aid in the interactive process~\cite{top:11, kuang:12}.  These methods
-have been applied to a number of domains, including natural
+learned from user interactions~\cite{boykov:01b, unger:08, rother:04}.
+Other approaches incorporate interaction into morphological operations
+(watershed)~\cite{straehle:12}, co-segmentation~\cite{batra:10}, or
+incorporate machine-learning to aid in the interactive
+process~\cite{top:11, kuang:12}.  These interactive methods have been
+applied to a number of domains, including natural
 images~\cite{rother:04}, medical images~\cite{boykov:00}, and
 neuroimages~\cite{straehle:11, straehle:12}.
 
@@ -171,11 +173,11 @@ propagation-based materials image segmentation
 approach~\cite{waggoner:11} can be extended to allow for convenient
 interactive segmentation.  We illustrate the performance of the
 proposed approach by using it to segment a materials image volume
-using smaller number of interactions compared with other methods that
-do not incorporate materials-specific priors.  Finally, we develop
-methods to estimate the parameters of this proposed approach to
-further reduce the number of user-required interactions in the
-segmentation process.
+using smaller number of interactions compared with general interactive
+segmentation methods that do not incorporate materials-specific
+priors.  Finally, we develop methods to estimate the parameters of
+this proposed approach to further reduce the number of user-required
+interactions in the segmentation process.
 
 The remainder of this paper is organized as follows: in
 \sect{interactive} we discuss the proposed interactive segmentation
@@ -188,39 +190,79 @@ concluding remarks.
 \section{Interactive Materials Segmentation}
 \label{sec:interactive}
 
-In previous work~\cite{waggoner:11}, volume segmentation was
-formulated as a propagation from the segmentation initialization $S^U$
-of a slice $U$ through the remaining slices to segment the complete
-volume, using an energy minimization formulation of the form
+In~\cite{waggoner:11} we develop a volume segmentation method which
+was formulated as a propagation from the segmentation initialization
+$S^U$ of a slice $U$ through the remaining slices to segment the
+complete volume.  This propagation was done while preserving the
+topology (\ie, non-adjacency relations among segments), which led to a
+better performance when compared with methods that did not incorporate
+topology as a prior.  More formally, we define propagation as the
+processing of transferring a known segmentation to the remaining
+unsegmented slices.  Specifically this known segmentation $S^U$ made
+up of segments $S^U_i$,
+\[S^U = \{ S^U_1, S^U_2, \ldots, S^U_n \} \]
+where this collection of segments makes up a partition of the slice
+$U$,
+\[ U = \bigcup_{i=1}^{n}  S^U_i . \] 
+This segmentation is transferred to an unknown image $V$ to yield
+segmentation $S^V$.  In our previous method, this was done using an
+energy minimization formulation of the form
 \begin{equation}
   E( S^V ) = \sum_{p\in V}\Theta_p(S^V_i) + 
   \sum_{\{p,q\}\in\mathcal{P}^V_n} \Phi_{pq}(S_i^V , S_j^V) .
 \label{eq:energy1}
 \end{equation}
-where the \data{} term $\Theta_p(S^V_i)$ was set using a dilation from
-the initialization $S^U$ and the \smooth{} term $\Phi_{pq}(S_i^V ,
-S_j^V)$ was constrained to preserve \emph{non-adjacency} among the
-different segments
-\[S^V = \{ S^V_1, S^V_2, \ldots, S^V_n \} \] using their same
-adjacency relations from $S^U$.
+where $\mathcal{P}^V_n$ the set of all 4-connected pixels.  The the
+\data{} term $\Theta_p(S^V_i)$, which represents a cost for a pixel
+$p$ being asigned to a segment $S^V_i$, was set using a dilation from
+the initialization $S^U$.  In addition, the \smooth{} term
+$\Phi_{pq}(S_i^V , S_j^V)$, which represents a cost for a pair of
+pixels $p,q$ being assigned two (possibly the same) segments $S^V_i,
+S^V_j$, was constrained to preserve \emph{non-adjacency} among the
+different segments; \ie, any two segments $S^V_i, S^V_k$ are allowed
+to be adjacent (have pixels that are 4-connected between them) if the
+corresponding segments in $S^U_i, S^U_k$ were also adjacent.  This
+topology constraint was found to be particularly important for
+materials images, and our proposed method was able to outperform other
+methods that did not incorporate such a prior.
 
 This formulation was shown to be minimizable to a local
-optimum~\cite{veksler:99, boykov:01}.  For interaction, our desire is
-to update the resulting segmentation $S^V$ by interactively allowing
-the user to specify areas for correction and producing a corrected
-$S^{\tilde{V}}$ segmenation.  We propose to allow the user to correct two
-types of segmentation errors within this framework: 1)
-oversegmentation, where a single structure is erroneously segmented
-into multiple structures and one or more must be removed/merged, and
-2) undersegmentation, where one or more structures are not assigned to
-a segment, and a new segmentation should be introduced for these
-structures.  Other errors, such as misplaced boundaries, can be
-corrected by combinations of the above operations, \eg, merging two
-segments and then introducing a new segment at the correct location.
+optimum~\cite{veksler:99, boykov:01}.  However, one phenomenon that
+was observed in this previous work was that, during propagation,
+topology might not be fully consistent.  For example, a new structure
+that was not present in the known slice $S^U$ might appear in $S^V$.
+Similarlty, a structure in $S^U$ might not be present in $S^V$.  The
+previous method made use of a brute-force automated approach to
+identify structures that were ``appearing'' or ``disappearing'' in the
+new slice $S^V$.  However, especially when the inter-slice distance is
+too large, it is not possible to predict every location where such
+structures may appear or disappear.  Thus, for the proposed
+interactive segmentation we discuss in this paper, our desire is to
+\emph{resegment} the segmentation $S^V$ by interactively allowing the
+user to specify areas for correction (\ie structures that should have
+disappeared, or were not identified in $S^V$) and producing a
+corrected $S^{\tilde{V}}$ segmenation for the same image $V$.  We
+propose to allow the user to correct two types of segmentation errors
+within this framework: 1) oversegmentation, where a single structure
+is erroneously segmented into multiple structures and one or more must
+be removed/merged, and 2) undersegmentation, where one or more
+structures are not assigned to a segment, and a new segmentation
+should be introduced for these structures.  These cases correspond to
+the aforementioned cases where a substructure did not dissappear as it
+should, or a new appearing structure was not identified, respectively.
+Other errors, such as misplaced boundaries, can be corrected by
+combinations of the above operations, \eg, merging two segments and
+then introducing a new segment at the correct location.
 
-While the previous method~\cite{waggoner:11} segmented entire slices,
-for performance, we wish to restrict the interaction to small, local
-regions within a structure.  We will further discuss the two
+These interactions are inherently local, since the human annotation
+only affects a small area within the larger image.  The previous
+propagation method segmented entire slices, which was more
+computationally intensive than is desirable in an interactive system,
+which should respond instantaneously to user feedback.  So, to make
+our interactive system more responsive when the user is providing
+annotations, we wish to restrict our interactive operations to small,
+local regions within a segmentation instead of resegmenting the entire
+image with the new annotations.  We will further discuss the two
 approaches, and how we identify local regions for each, in the
 following subsections.
 
