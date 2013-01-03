@@ -535,6 +535,59 @@ the benefit of an initialization, requires significantly more time and
 effort.  The hybrid method fares better than the unpropaged method,
 but it still requires greater effort than the proposed method.
 
+Qualitative results for the proposed method are shown in \fig{qual}
+where we show the erronious segmentation, the human annotation, and
+the updated segmentation.
+
+\begin{figure}[htbp]
+%% \renewcommand{\thesubfigure}{\thefigure.\arabic{subfigure}}
+\setlength{\tabcolsep}{0.2em}
+
+\centering
+
+\subfloat[]{\begin{tabular}{ccc} \includegraphics[width=0.15\linewidth]{fig/qual/a1} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/a2} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/a3} \end{tabular}} \hspace{1em}
+\subfloat[]{\begin{tabular}{ccc} \includegraphics[width=0.15\linewidth]{fig/qual/b1} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/b2} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/b3} \end{tabular}}
+
+\subfloat[]{\begin{tabular}{ccc} \includegraphics[width=0.15\linewidth]{fig/qual/c1} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/c2} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/c3} \end{tabular}} \hspace{1em}
+\subfloat[]{\begin{tabular}{ccc} \includegraphics[width=0.15\linewidth]{fig/qual/d1} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/d2} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/d3} \end{tabular}}
+
+\subfloat[]{\begin{tabular}{ccc} \includegraphics[width=0.15\linewidth]{fig/qual/e1} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/e2} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/e3} \end{tabular}} \hspace{1em}
+\subfloat[]{\begin{tabular}{ccc} \includegraphics[width=0.15\linewidth]{fig/qual/f1} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/f2} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/f3} \end{tabular}}
+
+\subfloat[]{\begin{tabular}{ccc} \includegraphics[width=0.15\linewidth]{fig/qual/g1} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/g2} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/g3} \end{tabular}} \hspace{1em}
+\subfloat[]{\begin{tabular}{ccc} \includegraphics[width=0.15\linewidth]{fig/qual/h1} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/h2} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/h3} \end{tabular}}
+
+\subfloat[]{\begin{tabular}{ccc} \includegraphics[width=0.15\linewidth]{fig/qual/i1} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/i2} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/i3} \end{tabular}} \hspace{1em}
+\subfloat[]{\begin{tabular}{ccc} \includegraphics[width=0.15\linewidth]{fig/qual/j1} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/j2} &
+    \includegraphics[width=0.15\linewidth]{fig/qual/j3} \end{tabular}}
+
+\caption{Qualitative results showing original segmentation $S^V$
+  (left), the human annotation (middle) with the seed pixels in green
+  and dilation pixels in blue, and the updated $S^{\tilde{V}}$
+  (right).  Note that (f) and (g) illustrate removal annotation with a
+  small ``X'', and the remaining illustrate
+  addition.} \label{fig:qual}
+\end{figure}
+
 \section{Conclusion}
 \label{sec:conclusion}
 
