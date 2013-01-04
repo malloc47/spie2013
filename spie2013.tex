@@ -640,9 +640,28 @@ the benefit of an initialization, requires significantly more time and
 effort.  The hybrid method fares better than the unpropagated method,
 but it still requires greater effort than the proposed method.
 
-Qualitative results for the proposed method are shown in \fig{qual}
-where we show the erroneous segmentation, the human annotation, and
-the updated segmentation.
+\begin{figure}[htbp]
+\centering
+\subfloat[F-measure]{\includegraphics[width=0.44\linewidth]{fig/eval_f}}
+
+\subfloat[Precision]{\includegraphics[width=0.4\linewidth]{fig/eval_p}}
+\hspace{0.1em}
+\subfloat[Recall]{\includegraphics[width=0.4\linewidth]{fig/eval_r}}
+\caption{} \label{fig:perform}
+\end{figure}
+
+In \fig{perform}, we show that the proposed interactive method is able
+to increase the performance of our state-of-the-art materials
+segmentation method in~\cite{waggoner:11}.  As in this previous work,
+we use the F-measure, which is the harmonic mean of the precision and
+recall~\cite{martin:01}, to show the edge coincidence with the ground
+truth edges.  For both the proposed and previous methods, we propagate
+from an initial slice $0$ to the remaining $10$ slices, and the
+proposed interaction increases performance for all slices.
+
+Finally, qualitative results for the proposed method are shown in
+\fig{qual} where we show the erroneous segmentation, the human
+annotation, and the updated segmentation.
 
 \begin{figure}[htbp]
 %% \renewcommand{\thesubfigure}{\thefigure.\arabic{subfigure}}
