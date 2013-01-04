@@ -14,7 +14,7 @@
    height="102"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="aaa.svg">
   <defs
      id="defs4" />
@@ -26,13 +26,13 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="4.1678506"
-     inkscape:cx="49.321605"
-     inkscape:cy="40.666324"
+     inkscape:cx="49.37713"
+     inkscape:cy="40.623531"
      inkscape:document-units="px"
-     inkscape:current-layer="g3017"
+     inkscape:current-layer="g3038"
      showgrid="false"
-     inkscape:window-width="1366"
-     inkscape:window-height="753"
+     inkscape:window-width="1680"
+     inkscape:window-height="1035"
      inkscape:window-x="0"
      inkscape:window-y="15"
      inkscape:window-maximized="0"
@@ -100,45 +100,6 @@
          id="tspan3060"
          x="23.571428"
          y="39.142857" /></text>
-    <text
-       xml:space="preserve"
-       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Linux Libertine O;-inkscape-font-specification:Linux Libertine O"
-       x="70.499969"
-       y="74.43364"
-       id="text3062"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan3064"
-         x="70.499969"
-         y="74.43364">a<tspan
-   style="font-size:65.00091553%;baseline-shift:sub"
-   id="tspan3066">1</tspan></tspan></text>
-    <text
-       sodipodi:linespacing="125%"
-       id="text3068"
-       y="104.79079"
-       x="119.78569"
-       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Linux Libertine O;-inkscape-font-specification:Linux Libertine O"
-       xml:space="preserve"><tspan
-         y="104.79079"
-         x="119.78569"
-         id="tspan3070"
-         sodipodi:role="line">a<tspan
-   style="font-size:65.00091553%;baseline-shift:sub"
-   id="tspan3074">2</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Linux Libertine O;-inkscape-font-specification:Linux Libertine O"
-       x="74.071404"
-       y="120.68365"
-       id="text3076"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan3078"
-         x="74.071404"
-         y="120.68365">a<tspan
-   style="font-size:65.00091553%;baseline-shift:sub"
-   id="tspan3082">3</tspan></tspan></text>
     <g
        id="g3017"
        transform="translate(9.5008157,3.6476346)">
@@ -171,6 +132,105 @@
            style="fill:#ffffff"><tspan
              style="font-size:65.00091553%;baseline-shift:super"
              id="tspan3015">V</tspan></tspan></text>
+    </g>
+    <g
+       transform="translate(-5.3749574,-23.704593)"
+       id="g3005">
+      <text
+         xml:space="preserve"
+         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Linux Libertine O;-inkscape-font-specification:Linux Libertine O"
+         x="26.272535"
+         y="55.693157"
+         id="text3007"
+         sodipodi:linespacing="125%"
+         transform="translate(47.999973,44.219353)"><tspan
+           sodipodi:role="line"
+           id="tspan3009"
+           x="26.272535"
+           y="55.693157"
+           style="fill:#ffffff">S<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan3020">1</tspan></tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3014"
+         y="99.912514"
+         x="81.339394"
+         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Linux Libertine O;-inkscape-font-specification:Linux Libertine O"
+         xml:space="preserve"><tspan
+           style="fill:#ffffff"
+           y="99.912514"
+           x="81.339394"
+           id="tspan3016"
+           sodipodi:role="line"><tspan
+             id="tspan3018"
+             style="font-size:65.00091553%;baseline-shift:super">V</tspan></tspan></text>
+    </g>
+    <g
+       id="g3022"
+       transform="translate(46.450317,9.8858625)">
+      <text
+         transform="translate(47.999973,44.219353)"
+         sodipodi:linespacing="125%"
+         id="text3024"
+         y="55.693157"
+         x="26.272535"
+         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Linux Libertine O;-inkscape-font-specification:Linux Libertine O"
+         xml:space="preserve"><tspan
+           style="fill:#ffffff"
+           y="55.693157"
+           x="26.272535"
+           id="tspan3026"
+           sodipodi:role="line">S<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan3036">2</tspan></tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Linux Libertine O;-inkscape-font-specification:Linux Libertine O"
+         x="81.339394"
+         y="99.912514"
+         id="text3030"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3032"
+           x="81.339394"
+           y="99.912514"
+           style="fill:#ffffff"><tspan
+             style="font-size:65.00091553%;baseline-shift:super"
+             id="tspan3034">V</tspan></tspan></text>
+    </g>
+    <g
+       transform="translate(-6.5746165,26.201226)"
+       id="g3038">
+      <text
+         xml:space="preserve"
+         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Linux Libertine O;-inkscape-font-specification:Linux Libertine O"
+         x="26.272535"
+         y="55.693157"
+         id="text3040"
+         sodipodi:linespacing="125%"
+         transform="translate(47.999973,44.219353)"><tspan
+           sodipodi:role="line"
+           id="tspan3042"
+           x="26.272535"
+           y="55.693157"
+           style="fill:#ffffff">S<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan3053">3</tspan></tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3046"
+         y="99.912514"
+         x="81.339394"
+         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Linux Libertine O;-inkscape-font-specification:Linux Libertine O"
+         xml:space="preserve"><tspan
+           style="fill:#ffffff"
+           y="99.912514"
+           x="81.339394"
+           id="tspan3048"
+           sodipodi:role="line"><tspan
+             id="tspan3050"
+             style="font-size:65.00091553%;baseline-shift:super">V</tspan></tspan></text>
     </g>
   </g>
 </svg>

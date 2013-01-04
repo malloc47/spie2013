@@ -122,28 +122,28 @@ using an interactive approach.  Materials science is especially
 important to the development of new metals and biomaterials, and
 presents unique challenges in image segmentation.  First, materials
 images are often segmented in volumes~\cite{ibrahim:91} consisting of
-individual image ``slices'' along the z-axis, producing numerous
-images that must all be segmented to fully and properly analyze the
-volume.  Second, depending on the inter-slice distance, a slice may
-share large overlap with its neighboring slices.  This results in
-slices being very coherent from one slice to the next, requiring that
-segmentation methods handle this coherency to obtain accurate
-segmentation.  Third, materials volumes consist of numerous
-substructures (\eg,``grains'' in a metallic material, or ``cells'' in
-a biomaterial, etc.) with complex relationships (\eg,
-adjacency/nonadjacency relationships) among them that determine many
-desirable properties of the material~\cite{swiler:95, rollett:04}.
-Existing interactive segmentation techniques often focus on only
-foreground-background segmentation~\cite{rother:04, boykov:01b}, and
-may not scale to the large number of substructures present in
-materials images.  Other methods may handle multiple
-structures~\cite{straehle:11, straehle:12}, but do not incorporate any
-prior knowledge about the unique relationships among
-substructures~\cite{reed:06, tan:04}.  Finally, the imaging techniques
-used to obtain a materials image volume may result in significant
-noise or other ambiguities that makes fully-automated segmentation
-difficult or impossible.  As we discuss next, existing techniques do
-not address all of these challenges.
+individual image ``slices'' along the z-axis, as shown by the two
+sample slices in \fig{full-ex}, producing numerous images that must
+all be segmented to fully and properly analyze the volume.  Second,
+depending on the inter-slice distance, a slice may share large overlap
+with its neighboring slices.  This results in slices being very
+coherent from one slice to the next, requiring that segmentation
+methods handle this coherency to obtain accurate segmentation.  Third,
+materials volumes consist of numerous substructures (\eg,``grains'' in
+a metallic material, or ``cells'' in a biomaterial, etc.) with complex
+relationships (\eg, adjacency/nonadjacency relationships) among them
+that determine many desirable properties of the
+material~\cite{swiler:95, rollett:04}.  Existing interactive
+segmentation techniques often focus on only foreground-background
+segmentation~\cite{rother:04, boykov:01b}, and may not scale to the
+large number of substructures present in materials images.  Other
+methods may handle multiple structures~\cite{straehle:11,
+  straehle:12}, but do not incorporate any prior knowledge about the
+unique relationships among substructures~\cite{reed:06, tan:04}.
+Finally, the imaging techniques used to obtain a materials image
+volume may result in significant noise or other ambiguities that makes
+fully-automated segmentation difficult or impossible.  As we discuss
+next, existing techniques do not address all of these challenges.
 
 There are a number of existing, non-interactive approaches to segment
 materials images~\cite{chuang:08, simmons:09}.  Among the most
@@ -198,13 +198,22 @@ topology (\ie, non-adjacency relations among segments), which led to a
 better performance when compared with methods that did not incorporate
 topology as a prior.  More formally, we define propagation as the
 processing of transferring a known segmentation to the remaining
-unsegmented slices.  Specifically this known segmentation $S^U$ made
-up of segments $S^U_i$,
+unsegmented slices.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig/dd}
+\caption{Example of segmentation propagation, highlighting different
+  types of topology changes.  Further discussion in the
+  text.} \label{fig:full-ex}
+\end{figure}
+Specifically this known segmentation $S^U$ is made up of segments
+$S^U_i$,
 \[S^U = \{ S^U_1, S^U_2, \ldots, S^U_n \} \]
 where this collection of segments makes up a partition of the slice
 $U$,
-\[ U = \bigcup_{i=1}^{n}  S^U_i . \] 
-This segmentation is transferred to an unknown image $V$ to yield
+\[ U = \bigcup_{i=1}^{n} S^U_i . \] This is shown by the many
+``grain'' structures in \fig{full-ex} separated by red lines.
+Segmentation $S^U$ is transferred to an unknown image $V$ to yield
 segmentation $S^V$.  In our previous method, this was done using an
 energy minimization formulation of the form
 \begin{equation}
@@ -212,45 +221,75 @@ energy minimization formulation of the form
   \sum_{\{p,q\}\in\mathcal{P}^V_n} \Phi_{pq}(S_i^V , S_j^V) .
 \label{eq:energy1}
 \end{equation}
-%% todo: previous equations
 where $\mathcal{P}^V_n$ the set of all 4-connected pixels.  The the
 \data{} term $\Theta_p(S^V_i)$, which represents a cost for a pixel
-$p$ being asigned to a segment $S^V_i$, was set using a dilation from
-the initialization $S^U$.  In addition, the \smooth{} term
-$\Phi_{pq}(S_i^V , S_j^V)$, which represents a cost for a pair of
-pixels $p,q$ being assigned two (possibly the same) segments $S^V_i,
-S^V_j$, was constrained to preserve \emph{non-adjacency} among the
-different segments; \ie, any two segments $S^V_i, S^V_k$ are allowed
-to be adjacent (have pixels that are 4-connected between them) if the
-corresponding segments in $S^U_i, S^U_k$ were also adjacent.  This
-topology constraint was found to be particularly important for
-materials images, and our proposed method was able to outperform other
-methods that did not incorporate such a prior.
+$p$ being assigned to a segment $S^V_i$, was set using a dilation from
+the initialization $S^U$, \ie, all pixels within a constant distance
+$d$:
+\begin{equation}
+  \Theta_p(S^{V}_i) = \left\{
+    \begin{array}{lcr}
+      0, &  \textrm{distance}(p,S^U_i) < d  \\
+      \infty, & \textrm{ otherwise} \\
+    \end{array}
+  \right.
+  \label{eq:theta}
+\end{equation}
+In addition, the \smooth{} term $\Phi_{pq}(S_i^V , S_j^V)$, which
+represents a cost for a pair of pixels $p,q$ being assigned two
+(possibly the same) segments $S^V_i, S^V_j$, was constrained to
+preserve \emph{non-adjacency} among the different segments; \ie, any
+two segments $S^V_i, S^V_k$ are allowed to be adjacent (have pixels
+that are 4-connected between them) if the corresponding segments in
+$S^U_i, S^U_k$ were also adjacent,
+\begin{equation} \Phi_{pq}(S^V_i , S^V_j) = \left\{
+    \begin{array}{lcr}
+      0, & i = j \\
+      \infty, & \{ S^U_i, S^U_j \} \notin \mathcal{A}^U  \\
+      g( p, q ), & \{ S^U_i, S^U_j \} \in \mathcal{A}^U \\
+    \end{array}
+  \right. ,
+  \label{eq:phi}
+\end{equation}
+where $\mathcal{A}^U$ contains segment pairs that are adjacent in
+$S^U$.  An example is shown in \fig{full-ex}, where $S^V_1$ and $S^V_2$
+are allowed to be adjacent because $S^U_1$ and $S^U_2$ were adjacent
+in $S^U$.  However, $S^V_1$ and $S^V_4$ have an infinity penalty
+because $S^U_1$ and $S^U_4$ are not adjacent in $S^U$.  This topology
+constraint was found to be particularly important for materials
+images, and our proposed method was able to outperform other methods
+that did not incorporate such a prior.
 
 This formulation was shown to be minimizable to a local
 optimum~\cite{veksler:99, boykov:01}.  However, one phenomenon that
 was observed in this previous work was that, during propagation,
 topology might not be fully consistent.  For example, a new structure
-that was not present in the known slice $S^U$ might appear in $S^V$.
-Similarlty, a structure in $S^U$ might not be present in $S^V$.  The
-previous method made use of a brute-force automated approach to
-identify structures that were ``appearing'' or ``disappearing'' in the
-new slice $S^V$.  However, especially when the inter-slice distance is
+that was not present in the known slice $S^U$ might appear in $S^V$,
+\eg the structure in the yellow circle in \fig{full-ex}.  Similarly,
+a structure in $S^U$ might not be present in $S^V$, such as the
+structure circled in magenta in \fig{full-ex}.  This breaks the
+topology constraints given in \eq{phi}, which leads to segmentations
+where spurious segments are left behind, as shown by the structure
+circled in green in \fig{full-ex}, or newly-appearing structures are
+not given an independent segment, as shown by the structure circled in
+blue in \fig{full-ex}.  The previous method made use of a brute-force
+automated approach to identify structures that were ``appearing'' or
+``disappearing'' in the new slice $S^V$, and add or remove them,
+respectfully.  However, particularly when the inter-slice distance is
 too large, it is not possible to predict every location where such
 structures may appear or disappear.  Thus, for the proposed
 interactive segmentation we discuss in this paper, our desire is to
 \emph{resegment} the segmentation $S^V$ by interactively allowing the
 user to specify areas for correction (\ie structures that should have
 disappeared, or were not identified in $S^V$) and producing a
-corrected $S^{\tilde{V}}$ segmenation for the same image $V$.  We
-propose to allow the user to correct two types of segmentation errors
-within this framework: 1) oversegmentation, where a single structure
-is erroneously segmented into multiple structures and one or more must
-be removed/merged, and 2) undersegmentation, where one or more
-structures are not assigned to a segment, and a new segmentation
-should be introduced for these structures.  These cases correspond to
-the aforementioned cases where a substructure did not dissappear as it
-should, or a new appearing structure was not identified, respectively.
+corrected $S^{\tilde{V}}$ segmentation for the same image $V$.  We
+propose to allow the user to correct these two types of segmentation
+errors within this framework by: 1) annotating the location of a new
+segment to handle cases where a new structure appears in slice $V$,
+and 2) annotation of existing segments that should no longer be
+present in segmentation $S^V$.  % These cases correspond to the
+% aforementioned cases where a substructure did not dissappear as it
+% should, or a new appearing structure was not identified, respectively.
 Other errors, such as misplaced boundaries, can be corrected by
 combinations of the above operations, \eg, merging two segments and
 then introducing a new segment at the correct location.
@@ -267,19 +306,19 @@ image with the new annotations.  We will further discuss the two
 approaches, and how we identify local regions for each, in the
 following subsections.
 
-%% todo: add full figure with propagation and appearing/dissappearing, and with adjacent/nonadjacent
-
-\subsection{Removal: Correcting Oversegmentation}
+\subsection{Removal}
 \label{sec:remove}
 
 We allow the user to select a specific segment $S^V_k$ for removal by
 interactively clicking on this segment in a visualized segmentation.
 Instead of naively removing this segment by arbitrarily merging it
-into one of its neighbors, we instead find a local group of segments
-around the identified segment, as shown by $a_1, a_2, a_3$ around the
-selected segment $S^V_k$ in \figsub{removal-ex}{a}, and re-run the
-previous energy minimization within this local region after modifying
-the $\Theta$ term to incorporate the interaction, resulting in
+into one of its neighbors, we use the same energy minimization
+discussed above to assign segments to each individual pixel.  We do
+this by finding a local group of segments around the removed segment
+(selected by the user), as shown by $S^V_1, S^V_2, S^V_3$ surrounding
+the removed segment $S^V_k$ in \figsub{removal-ex}{a}, and re-run the
+energy minimization within this local region after modifying the
+$\Theta$ term to incorporate the interaction, resulting in
 \figsub{removal-ex}{b}.
 \begin{figure}[htbp]
 \centering
@@ -291,15 +330,23 @@ the $\Theta$ term to incorporate the interaction, resulting in
   extracted and energy minimized in this
   region.} \label{fig:removal-ex}
 \end{figure}
-More generally, for ease of notation, we use $ \mathcal{A}_k = \{a_1,
-\ldots, a_m\} $ to refer to the set of segments neighboring any
-particular segment $S^V_k$.  We do this by setting an infinity penalty
-for the indicated segment $S^V_k$ and zero penalty for all other
-surrounding segments.
 
-More specifically, to update the $\Theta$ term, we incorporate these
-adjacent neighbors by allowing all the pixels $p\in S^V_k$ to be
-assigned any of its neighboring label's segments, \ie,
+To identify the local neighborhood in which we should run the proposed
+interactive segmentation for segment removal, we must first identify
+the neighbors of the removed segment.  For ease of notation, we use
+similar notation to the adjacency definition above by using
+$\{\mathcal{A}^V\}_k$ to refer to the set of segments neighboring a
+particular segment $S^V_k$.  So by grouping all the pixels in the
+removed segment and its adjacent segments, we form the local region on
+which we run the energy minimization,
+\begin{equation}
+  \mathcal{L} = \{\mathcal{A}^V\}_k \bigcup S^V_k .
+\end{equation}
+
+To update the $\Theta$ term in the energy minimization, we incorporate
+these adjacent neighbors by allowing all the pixels in the removed
+segment $p\in S^V_k$ to be assigned any of its neighboring label's
+segments, \ie,
 \begin{equation}\label{eq:remove}
 \begin{aligned}
  \forall p \in S^V_k ,& \quad \Theta_p(S^{\tilde{V}}_i) = \left\{
@@ -311,7 +358,6 @@ assigned any of its neighboring label's segments, \ie,
 \forall p \notin S^V_k ,& \quad \Theta_p(S^{\tilde{V}}_i) = \Theta_p(S^V_i)
 \end{aligned}
 \end{equation}
-
 % \begin{align*}
 %  \forall p \in S^V_k , & \\
 %  % & \Theta_p(S^{\tilde{V}}_k) = \infty \\
@@ -325,10 +371,9 @@ assigned any of its neighboring label's segments, \ie,
 % \forall p \notin S^V_k , & \\ 
 % & \Theta_p(S^{\tilde{V}}_i) = \Theta_p(S^V_i)
 % \end{align*}
-
 which results in all pixels $p$ that were previously in $S^V_k$ being
-assigned an $\infty$ penalty in $S^{\tilde{V}}$, while being given a $0$
-cost if they are assigned to the neighbors of $S^V_k$ in
+assigned an $\infty$ penalty in $S^{\tilde{V}}$, while being given a
+$0$ cost if they are assigned to the neighbors of $S^V_k$ in
 $S^{\tilde{V}}$.  For other pixels $p\notin S^V_k$, their costs in
 $S^{\tilde{V}}_k$ remain exactly as they were in $S^V_k$.  By updating
 $\Theta$ in this fashion, we reassign the segments surrounding $S^V_k$
@@ -347,11 +392,11 @@ operation.  The full algorithm for removal is shown in \alg{remove}.
   \algrenewcommand\algorithmicforall{\textbf{for each}}
   \begin{algorithmic}[1]
     \Function{RemoveSegment}{$S^V, S^V_k$}
-    \State $A_k \gets$ neighbors for $S^V_k$
-    \State Identify region surrounding $S^V_k$ and $A_k$
-    \State For pixels within region, build graph for energy minimization problem from~\cite{waggoner:11}
+    % \State $A_k \gets$ neighbors for $S^V_k$
+    \State $\mathcal{L} \gets \{\mathcal{A}^V\}_k \bigcup S^V_k$
+    \State $\forall p \in \mathcal{L}$, build graph for energy minimization problem from~\cite{waggoner:11}
     \State $\Theta \gets $ set from \eq{remove}
-    \State $ S^{\tilde{V}} \gets $ minimization of energy in local region and copied to $S^V$
+    \State $S^{\tilde{V}} \gets S^V$ updated with the pixels assigned in $\mathcal{L}$
     \State \textbf{return} updated $S^{\tilde{V}}$
     \EndFunction
   \end{algorithmic}
@@ -359,7 +404,7 @@ operation.  The full algorithm for removal is shown in \alg{remove}.
   \label{alg:remove}
 \end{algorithm}
 
-\subsection{Addition: Correcting Undersegmentation}
+\subsection{Addition}
 \label{sec:addition}
 
 Unlike removal, interactively annotating an additional structure
@@ -371,21 +416,21 @@ cannot create new segments.  Thus, we must explicitly create a new
 segment at the location specified by the user.
 
 We take as input from the user, an annotation specifying the center
-location $c_{x,y}$ of the new segment $S^{\tilde{V}}_{n+1}$.  In
-addition to this, we also accept two parameters from the user: 1) the
-\emph{seed} distance $s$ specifying a circular region within the
-interior to the desired structure to be segmented; 2) a
-\textit{dilation} parameter $d$, which is the same as the dilation
-parameter used in~\cite{waggoner:11}, which should completely cover
-the structure to be segmented.  We explicitly enforce that $d \geq s$
-for any choice of $s$.
+location $c$ of the new segment $S^{\tilde{V}}_{n+1}$.  In addition to
+this, we also accept two parameters from the user: 1) the \emph{seed}
+distance $s$ specifying a circular region within the interior to the
+desired structure to be segmented; 2) a \textit{dilation} parameter
+$d$, which is the same as the dilation parameter used
+in~\cite{waggoner:11}, which should completely cover the structure to
+be segmented.  We explicitly enforce that $d \geq s$ for any choice of
+$s$.
 
-We call pixels within the seed distance $s$ of the annotated point
-``seed pixels'' and pixels within the dilation distance $d$ of the
-annotated point ``dilation pixels.''  Using this approach, seed pixels
-are \emph{guaranteed} to be part of the annotated segment, as shown by
-the green circle in \figsub{addition-ex}{b}, and dilation pixels are
-\emph{potentially} part of the annotated segment, as shown by the blue
+We call pixels within the seed distance $s$ of the added point ``seed
+pixels'' and pixels within the dilation distance $d$ of the added
+point ``dilation pixels.''  Using this approach, seed pixels are
+\emph{guaranteed} to be part of the added segment, as shown by the
+green circle in \figsub{addition-ex}{b}, and dilation pixels are
+\emph{potentially} part of the added segment, as shown by the blue
 circle in \figsub{addition-ex}{b}.  This makes these parameter
 conceptually simple for the user to tune.  In \sect{param}, we discuss
 how to automate the selection of these parameters to further reduce
@@ -407,23 +452,24 @@ the user's burden when interactively segmenting a materials volume.
 \end{figure}
 
 Since we define segmentation $S^V$ as having $n$ segments $S^V_1,
-S^V_2, \ldots, S^V_n$, we introduce a new $n+1$ segment in the updated
-segmentation $S^{\tilde{V}}$.  This $S^{\tilde{V}}_{n+1}$ is
-introduced by giving a zero cost for all pixels within the dilation
-distance of the annotated point $c$, \ie
+S^V_2, \ldots, S^V_n$, we introduce a new $S^V_{n+1}$ segment in the
+updated segmentation $S^{\tilde{V}}$.  This segment
+$S^{\tilde{V}}_{n+1}$ is introduced by giving a zero cost for all
+pixels within the dilation distance of the added point $c$, \ie
 \begin{equation}
   \label{eq:d}
   \Theta_p(S^{\tilde{V}}_{n+1}) = \left\{
     \begin{array}{lcr}
-      0, & \| p_{x,y} - c_{x,y} \| \leq d  \\
+      0, & \| p - c \| \leq d  \\
       \infty, & \textrm{ otherwise} \\
     \end{array}
-  \right. .
+  \right.
 \end{equation}
+where $\| \cdot \|$ is the euclidean distance between $p$ and $c$.
 Though this is necessary to include the new segment in the energy
 minimization, it is not sufficient to guarantee that it will appear in
-the final segmentation.  To insure that some of pixels near the
-annotation are guaranteed to be part of the segmentation, we give an
+the final segmentation.  To insure that some of pixels near the added
+point are guaranteed to be part of the segmentation, we give an
 infinity penalty for pixels within the seed distance $s$ to be
 assigned any other segment except $S^{\tilde{V}}_{n+1}$.  Similar to
 \eq{d} above, we set
@@ -431,29 +477,32 @@ assigned any other segment except $S^{\tilde{V}}_{n+1}$.  Similar to
   \label{eq:s}
   \Theta_p(S^{\tilde{V}}_i) = \left\{
     \begin{array}{lcr}
-      \infty, & \| p_{x,y} - c_{x,y} \| \leq s \textrm{ and } i \neq n+1  \\
+      \infty, & \| p - c \| \leq s \textrm{ and } i \neq n+1  \\
       \Theta_p(S^{V}_i), & \textrm{ otherwise} \\
     \end{array}
   \right.
 \end{equation}
-which \emph{fixes} pixels within the seed distance $s$ of the
-annotated point to be assigned only to $S^{\tilde{V}}_{n+1}$; if they
-are not, then they take on the same value as they did in the energy
+which \emph{fixes} pixels within the seed distance $s$ of the added
+point to be assigned only to $S^{\tilde{V}}_{n+1}$; if they are not,
+then they take on the same value as they did in the energy
 minimization in $S^V$.  Similar to the removal step in \sect{remove},
 we can also do this procedure in a local region for efficiency by
 finding all segments within the seed distance $s$ of $c$ and find all
-adjacent segments to these segments to form the local region.  The
-full algorithm for annotating addition is shown in \alg{addition}.
+adjacent segments to these segments to form the local region.  For
+ease of notation, we use $\{\mathcal{A}^V\}_{c|s}$ to refer to the set
+of all segments within a distance $s$ to point $c$.  The full
+algorithm for introducing additional segments is shown in
+\alg{addition}.
 \begin{algorithm}[!t]
   \centering
   \algrenewcommand\algorithmicforall{\textbf{for each}}
   \begin{algorithmic}[1]
     \Function{AddSegment}{$S^V, c_{x,y}$, $s$, $d$}
-    \State $A \gets$ neighbors for $\bigcup$ all segments within distance $s$ of $c$
-    \State Identify region surrounding $A_k$
-    \State For pixels within region, build graph for energy minimization problem from~\cite{waggoner:11}
+    \State $\mathcal{L} \gets \{\mathcal{A}^V\}_{c|s}$
+    \State $\forall p \in \mathcal{L}$, build graph for energy minimization problem from~\cite{waggoner:11}
     \State $\Theta \gets $ set from \eq{d} and \eq{s}
-    \State $ S^{\tilde{V}} \gets $ minimization of energy in local region and copied to $S^V$
+    \State $S^{\tilde{V}} \gets S^V$ updated with the pixels assigned in $\mathcal{L}$
+    % \State $ S^{\tilde{V}} \gets $ minimization of energy in local region and copied to $S^V$
     \State \textbf{return} updated $S^{\tilde{V}}$
     \EndFunction
   \end{algorithmic}
@@ -468,46 +517,55 @@ When adding new regions, as discussed in \sect{addition}, the seed
 distance $s$ and dilation distance $d$ are required to be specified by
 the user.  This results in unnecessary interactions on the part of the
 user that serve only to provide this information.  Instead, we wish to
-provide good estimates for these parameters, so the user need only
+provide good estimates for these parameters so the user need only
 override them in very rare cases, or not at all.
 
 We do this by leveraging information about the annotation the user
 provided relative to the region in which it resides.  Generally, an
 annotation to add a new segment is made because a small structure
 within a larger segment is missed.  An example is shown in
-\figsub{param}{a}, where the small structure near the right of the
-large segment does not have its own segment, and is instead contained
-within the large segment in the center.  Intuitively, annotating near
-the edge of this large segment likely indicates the resulting new
-segment is small.  Conversely, annotating closer to the center of this
-large segment likely indicates the resulting new segment is large
-(perhaps $\frac{1}{2}$ the size of the containing segment).  The ideal
-selection of $s$ is shown for a particular choice of $c$ in
-\figsub{param}{c}.
+\figsub{param}{a}, where the circled structure does not have its own
+segment, and is instead contained within the large segment $S^V_b$.
+Intuitively, placing $c$ near the edge of $S^V_b$ likely indicates the
+resulting new segment is small, as shown by \figsub{param}{b}.
+Conversely, placing $c$ closer to the center of $S^V_b$ likely
+indicates the resulting new segment is large (perhaps $\frac{1}{2}$
+the size of the containing segment) as shown in \figsub{param}{c}.  We
+can make the simplifying assumption that, unless $c$ is placed
+directly on the boundary, we do not allow the resulting segment to
+spill over the boundary of $S^V_b$.  The selection of $c,s$ in
+\figsub{param}{b} is able to generate the result in \figsub{param}{c}.
 \begin{figure}[htbp]
 \centering
-\subfloat[]{\includegraphics[width=0.30\linewidth]{fig/cca}}
+\subfloat[]{\includegraphics[width=0.30\linewidth]{fig/cca.pdf}}
 \hspace{0.1em}
 \subfloat[]{\includegraphics[width=0.30\linewidth]{fig/ccf.pdf}}
+
+\subfloat[]{\includegraphics[width=0.30\linewidth]{fig/ccg.pdf}}
 \hspace{0.1em}
-\subfloat[]{\includegraphics[width=0.30\linewidth]{fig/ccb}}
-\caption{} \label{fig:param}
+\subfloat[]{\includegraphics[width=0.30\linewidth]{fig/ccb.pdf}}
+\caption{Automatic parameter selection.  \textbf{(a)}~A large segment
+  containing an unsegmented structure near point~$c$.
+  \textbf{(b-c)}~Selections of~$c$ at varying distances from the
+  boundary of $S^V_b$, resulting in different estimations of~$s$.
+  \textbf{(d)}~Result $S^{\tilde{V}}$ from selecting the~$c$ shown~(b)
+  using the proposed parameter estimation method.} \label{fig:param}
 \end{figure}
 
 To obtain an estimation of $s$ we begin by setting $s$ a distance $0$
-from the annotated point $c$.  We incrementally increase $s$ by a
-small $\epsilon$ amount until the entire circle is within $\epsilon$
-distance of the boundary of the containing segment, as shown by the
-arrow in \figsub{ex}{b}.  Since the majority of newly-appearing
-structures are near the boundary of another structure (near a
-``Y''-junction edge between structures), this automatic approach
-well-handles such cases.  When the annotated point $c$ falls directly
-on an edge, we default to requiring user-supplied paramters in these
-less-common cases.  For simplicty, this approach reduces to setting
-the distance $s$ to the nearest boundary pixel.  For estimating $d$,
-we scale it according to the value of $s$.  Specifically, we set $d =
-2\cdot s$.  As shown in \sect{ex}, this approach saves both time and
-effort.
+from the added point $c$.  We incrementally increase $s$ by a small
+$\epsilon$ amount until the entire circle is within $\epsilon$
+distance of the boundary of the containing segment $S^V_b$, as shown
+by the arrow in \figsub{ex}{b-c}.  Empirically, the majority of
+newly-appearing structures are near the boundary of a containing
+structure $S^V_b$ (near a ``Y''-junction edge between structures),
+this automatic approach well-handles such cases.  When the added point
+$c$ falls directly on an edge, we default to requiring user-supplied
+parameters in these less-common cases.  For simplicity, this approach
+reduces to setting the distance $s$ to the nearest boundary pixel.
+For estimating $d$, we scale it according to the value of $s$.
+Specifically, we set $d = 2\cdot s$.  As shown in \sect{ex}, this
+approach saves both time and effort.
 
 %% Similar to this, we obtain
 %% an estimation of $d$ by starting it at the estimated size of $s$, and
@@ -579,11 +637,11 @@ segmentation time ($< 5$ minutes in most cases) and with much less
 effort ($< 100$ clicks in most cases) compared with the unpropagated
 intelligent scissors method.  The intelligent scissors method, without
 the benefit of an initialization, requires significantly more time and
-effort.  The hybrid method fares better than the unpropaged method,
+effort.  The hybrid method fares better than the unpropagated method,
 but it still requires greater effort than the proposed method.
 
 Qualitative results for the proposed method are shown in \fig{qual}
-where we show the erronious segmentation, the human annotation, and
+where we show the erroneous segmentation, the human annotation, and
 the updated segmentation.
 
 \begin{figure}[htbp]
@@ -640,17 +698,18 @@ the updated segmentation.
 
 We have presented an interactive segmentation method extended from a
 propagated approach used in previous work.  By allowing the user to
-interactively handle both over and undersegmentation, we show that the
-time required to segment a materials volume, as well as the overall
-effort (number of clicks) needed for interaction, is much less than
-the comparision ``intelligent scissors'' method used in popular image
-processing tools.  By localizing the proposed interaction to local
-regions within the image, we are able to obtain a fast, yet robust
-means to handle segmentation errors within materials images that
-well-handles ambiguity within this type of image.  Finally, by using a
-simple estimate for the small number of parameters required by the
-interaction, we show that we can further reduce the amount of time and
-effort needed by the proposed approach.
+interactively handle errors due to topology inconsistency when
+propagating, we show that the time required to segment a materials
+volume, as well as the overall effort (number of clicks) needed for
+interaction, is much less than the comparison ``intelligent
+scissors'' method used in popular image processing tools.  By
+localizing the proposed interaction to local regions within the image,
+we are able to obtain a fast, yet robust means to handle segmentation
+errors within materials images that well-handles ambiguity within this
+type of image.  Finally, by using a simple estimate for the small
+number of parameters required by the interaction, we show that we can
+further reduce the amount of time and effort needed by the proposed
+approach.
 
 \bibliography{matsci}
 \bibliographystyle{spiebib}   %>>>> makes bibtex use spiebib.bst
