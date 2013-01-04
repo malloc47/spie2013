@@ -53,13 +53,13 @@ Labs, Dayton, OH 45433, USA; \\
 %  institution and addresses, should be included as a footnote, 
 %  which is facilitated by the \authorinfo{} command.
 
-\authorinfo{Further author information: (Send correspondence to J.W.)\\
-J.W.: E-mail: waggonej@email.sc.edu, Telephone: 847-261-4747\\ 
-Y.Z.: E-mail: zhou42@email.sc.edu \\ 
-J.S.: E-mail: jeff.simmons@wpafb.af.mil \\ 
-A.S.: E-mail: ayman.salem.ctr@wpafb.af.mil \\ 
-M.G.: E-mail: degraef@cmu.edu \\
-S.W.: E-mail: songwang@cec.sc.edu, Telephone: 803-777-2487}
+\authorinfo{Further author information: (Send correspondence to J. Waggoner)\\
+J. Waggoner: E-mail: waggonej@email.sc.edu, Telephone: 847-261-4747\\ 
+Y. Zhou: E-mail: zhou42@email.sc.edu \\ 
+J. Simmons: E-mail: jeff.simmons@wpafb.af.mil \\ 
+A. Salem: E-mail: ayman.salem.ctr@wpafb.af.mil \\ 
+M. De Graef: E-mail: degraef@cmu.edu \\
+S. Wang: E-mail: songwang@cec.sc.edu, Telephone: 803-777-2487}
 %%>>>> when using amstex, you need to use @@ instead of @
 
 
@@ -80,28 +80,30 @@ S.W.: E-mail: songwang@cec.sc.edu, Telephone: 803-777-2487}
 
 %>>>> Include a list of keywords after the abstract 
 
-\keywords{Segmentation, Materials, Propagation, Interactive, Graph-Cut}
+\keywords{image segmentation, materials volume segmentation,
+  segmentation propagation, interactive segmentation, graph-cut
+  approaches}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Introduction}
 \label{sec:intro}
 
-Interactive segmentation is a rapidly-growing area of Computer Vision
+Interactive segmentation is a rapidly-growing area of computer vision
 and has seen heightened interest recently\cite{kuang:12,straehle:12}.
 While traditional segmentation seeks to identify objects/structures
 within an image in a fully-automated fashion, interactive
-segmentation, similar to Active Learning~\cite{settles:09},
-accomplishes the same goal using a sparse number of user interactions
-which are incorporated directly into the algorithm, including the
-approaches/models used to perform the segmentation.  These
-interactions may take on different forms, and may include drawing a
-bounding box~\cite{rother:04}, roughly outlining a
+segmentation, similar to active learning~\cite{settles:09},
+accomplishes the goal of image segmentation while incorporating a
+sparse number of user interactions which are included as additional
+constraints or guideance in the segmentation model or algorithm.
+These interactions may take on different forms, and may include
+drawing a bounding box~\cite{rother:04}, roughly outlining a
 boundary~\cite{mortensen:95}, or drawing brush strokes inside and/or
 outside the object of interest~\cite{santner:10, unger:08, boykov:01b,
   vezhnevets:95}.  A desired property of an interactive segmentation
-approach is that the user interaction be as convenient (\ie low
-cognitive load) and sparse (\ie few in number) as possible, while
+approach is that the user interaction be as convenient (\ie, low
+cognitive load) and sparse (\ie, few in number) as possible, while
 simultaneously providing immediate feedback to the user on every
 interaction.
 
@@ -116,56 +118,54 @@ images~\cite{rother:04}, medical images~\cite{boykov:00}, and
 neuroimages~\cite{straehle:11, straehle:12}.
 
 One domain that has been unaddressed in interactive segmentation
-literature is Materials Science image segmentation, where there are no
+literature is materials science image segmentation, where there are no
 existing techniques focusing solely on segmenting materials images
 using an interactive approach.  Materials science is especially
 important to the development of new metals and biomaterials, and
 presents unique challenges in image segmentation.  First, materials
-images are often segmented in volumes~\cite{ibrahim:91} consisting of
-individual image ``slices'' along the z-axis, as shown by the two
-sample slices in \fig{full-ex}, producing numerous images that must
-all be segmented to fully and properly analyze the volume.  Second,
-depending on the inter-slice distance, a slice may share large overlap
-with its neighboring slices.  This results in slices being very
-coherent from one slice to the next, requiring that segmentation
-methods handle this coherency to obtain accurate segmentation.  Third,
-materials volumes consist of numerous substructures (\eg,``grains'' in
-a metallic material, or ``cells'' in a biomaterial, etc.) with complex
-relationships (\eg, adjacency/nonadjacency relationships) among them
-that determine many desirable properties of the
-material~\cite{swiler:95, rollett:04}.  Existing interactive
-segmentation techniques often focus on only foreground-background
-segmentation~\cite{rother:04, boykov:01b}, and may not scale to the
-large number of substructures present in materials images.  Other
-methods may handle multiple structures~\cite{straehle:11,
-  straehle:12}, but do not incorporate any prior knowledge about the
-unique relationships among substructures~\cite{reed:06, tan:04}.
-Finally, the imaging techniques used to obtain a materials image
-volume may result in significant noise or other ambiguities that makes
-fully-automated segmentation difficult or impossible.  As we discuss
-next, existing techniques do not address all of these challenges.
+images often are 3D volumes~\cite{ibrahim:91} made up of a sequence of
+individual 2D image ``slices,'' as shown by the two sample slices in
+\fig{full-ex}.  This large number of slices must all be segmented to
+fully and properly analyze the 3D structure of the material.  Second,
+depending on the inter-slice distance, the 2D structure in two
+neighboring slices may show high continuity.  Such inter-slice
+structure continuity must be considered to achieve accurate
+segmentation.  Third, materials volumes consist of numerous
+substructures (\eg,``grains'' in a metallic material, or ``cells'' in
+a biomaterial, etc.) with complex relationships (\eg,
+adjacency/nonadjacency relationships) among them that determine many
+desirable properties of the material~\cite{swiler:95, rollett:04}.
+Existing interactive segmentation techniques often only focus on
+foreground-background segmentation~\cite{rother:04, boykov:01b}, and
+may not scale to the large number of substructures present in
+materials images.  Other methods may handle multiple
+structures~\cite{straehle:11, straehle:12}, but do not incorporate any
+prior knowledge about the unique relationships among substructures in
+materials images~\cite{reed:06, tan:04}.  Finally, the imaging
+techniques used to obtain a materials image volume may result in
+significant noise or other ambiguities that increases the difficulty
+to segment a materials image volume in a fully-automatic fashion.
 
 There are a number of existing, non-interactive approaches to segment
 materials images~\cite{chuang:08, simmons:09}.  Among the most
 prominent is the work of Comer~\etal~\cite{comer:94, comer:00} on the
-EM/MPM algorithm, originating from~\cite{marroquin:87} .  Other
-methods that have been specifically used on materials images include
-graph cut~\cite{landis:11, waggoner:11}, stabilized inverse diffusion
+EM/MPM algorithm, originating from~\cite{marroquin:87}.  Other methods
+that have been specifically used on materials images include graph
+cut~\cite{landis:11, waggoner:11}, stabilized inverse diffusion
 equations~\cite{huffman:08}, Bayesian methods~\cite{comer:11,
   simmons:08}, and the watershed~\cite{liq:07} method.  Most often,
 materials images are opportunistically segmented by the simplest tools
 available, such as thresholding~\cite{gonzalez:08,shapiro:01}, or
-out-of-the-box methods such as watershed or normalized cut.  All of
-these techniques are able to achieve reasonable results in a
-fully-automated fashion, however, they do not incorporate any
-interaction for manual refinement by a user.  Since some of these
-approaches may require significant time to run, requiring the user to
-examine and correct problems only after the algorithm is complete may
-not be practical if rapid refinement is desired.  Conversely, the
-interactive segmentation techniques discussed previously do not
-incorporate any specific domain knowledge about materials images, and
-thus may require additional effort on the part of the user than may
-otherwise be needed when segmenting a materials image volume.
+out-of-the-box methods such as watershed or normalized cut.  However,
+these methods do not incorporate any interaction for manual refinement
+by a user.  Since some of these approaches may require significant
+time to run, requiring the user to examine and correct problems only
+after the algorithm is complete may not be practical if rapid
+refinement is desired.  Conversely, the general-purpose interactive
+segmentation techniques discussed previously do not incorporate any
+specific domain knowledge about materials images, and thus may require
+additional effort on the part of the user than may otherwise be needed
+when segmenting a materials image volume.
 
 In this paper, we present an interactive segmentation approach to
 segment materials science image volumes.  We show that an existing
@@ -173,32 +173,35 @@ propagation-based materials image segmentation
 approach~\cite{waggoner:11} can be extended to allow for convenient
 interactive segmentation.  We illustrate the performance of the
 proposed approach by using it to segment a materials image volume
-using smaller number of interactions compared with general interactive
-segmentation methods that do not incorporate materials-specific
-priors.  Finally, we develop methods to estimate the parameters of
-this proposed approach to further reduce the number of user-required
-interactions in the segmentation process.
+using smaller number of interactions compared with general-purpose
+interactive segmentation methods that do not incorporate
+materials-specific priors.  Finally, we develop methods to estimate
+the parameters of this proposed approach to further reduce the number
+of user-required interactions in the segmentation process.
 
 The remainder of this paper is organized as follows: in
 \sect{interactive} we discuss the proposed interactive segmentation
 approach for materials image volumes. In \sect{param}, we show how
-some of the parameters of the proposed method.  In \sect{ex}, we
-evaluate the proposed method's performance against another interactive
-segmentation method.  Finally, in \sect{conclusion} we provide brief
-concluding remarks.
+some of the parameters of the proposed method can be automatically
+estimated.  In \sect{ex}, we evaluate the proposed method's
+performance against another general-purpose interactive segmentation
+method.  Finally, in \sect{conclusion} we provide brief concluding
+remarks.
 
-\section{Interactive Materials Segmentation}
+\section{Interactive Materials Image Segmentation}
 \label{sec:interactive}
 
-In~\cite{waggoner:11} we develop a volume segmentation method which
-was formulated as a propagation from the segmentation initialization
-$S^U$ of a slice $U$ through the remaining slices to segment the
-complete volume.  This propagation was done while preserving the
-topology (\ie, non-adjacency relations among segments), which led to a
-better performance when compared with methods that did not incorporate
-topology as a prior.  More formally, we define propagation as the
-processing of transferring a known segmentation to the remaining
-unsegmented slices.
+In~\cite{waggoner:11} we developed a 3D materials science image
+segmentation method by propagating segmentation $S^U$ of a slice $U$
+to a neighboring slice $V$, resulting in a segmentation $S^V$.  This
+way, using an initial segmentation on one slice, we can repeatedly
+propagate this segmentation to the remaining slices in the volume to
+obtain a complete 3D segmentation.  This propagation was done while
+preserving the topology (\ie, non-adjacency relations among 2D
+segments), which led to a better performance when compared with
+methods that did not incorporate topology as a prior.  %% More formally,
+%% we define propagation as the process of transferring a known
+%% segmentation to the remaining unsegmented slices.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\linewidth]{fig/dd}
@@ -206,26 +209,25 @@ unsegmented slices.
   types of topology changes.  Further discussion in the
   text.} \label{fig:full-ex}
 \end{figure}
-Specifically this known segmentation $S^U$ is made up of segments
-$S^U_i$,
-\[S^U = \{ S^U_1, S^U_2, \ldots, S^U_n \} \]
-where this collection of segments makes up a partition of the slice
-$U$,
-\[ U = \bigcup_{i=1}^{n} S^U_i . \] This is shown by the many
-``grain'' structures in \fig{full-ex} separated by red lines.
-Segmentation $S^U$ is transferred to an unknown image $V$ to yield
-segmentation $S^V$.  In our previous method, this was done using an
-energy minimization formulation of the form
+Specifically, let the segmentation
+\[S^U = \{ S^U_1, S^U_2, \ldots, S^U_n \} , \]
+where $S^U_i , i=1\ldots n$ are disjoint segments in slice $U$, and
+this collection of segments makes up a partition of the slice $U$,
+\[ U = \bigcup_{i=1}^{n} S^U_i . \] 
+An example is shown in \fig{full-ex} where all the segments (``grain''
+structures) are separated by red lines.  To propagate segmentation
+$S^U$ to a new slice $V$ to yield the segmentation $S^V$, we minimize
+the energy
 \begin{equation}
   E( S^V ) = \sum_{p\in V}\Theta_p(S^V_i) + 
-  \sum_{\{p,q\}\in\mathcal{P}^V_n} \Phi_{pq}(S_i^V , S_j^V) .
+  \sum_{\{p,q\}\in\mathcal{P}^V_n} \Phi_{pq}(S_i^V , S_j^V)
 \label{eq:energy1}
 \end{equation}
-where $\mathcal{P}^V_n$ the set of all 4-connected pixels.  The the
+where $\mathcal{P}^V_n$ is the set of all 4-connected pixels.  The
 \data{} term $\Theta_p(S^V_i)$, which represents a cost for a pixel
-$p$ being assigned to a segment $S^V_i$, was set using a dilation from
-the initialization $S^U$, \ie, all pixels within a constant distance
-$d$:
+$p$ being assigned to a segment $S^V_i$ in slice $V$, was set to
+reflect the structure continuity between $U$ and
+$V$,
 \begin{equation}
   \Theta_p(S^{V}_i) = \left\{
     \begin{array}{lcr}
@@ -235,13 +237,15 @@ $d$:
   \right.
   \label{eq:theta}
 \end{equation}
-In addition, the \smooth{} term $\Phi_{pq}(S_i^V , S_j^V)$, which
-represents a cost for a pair of pixels $p,q$ being assigned two
-(possibly the same) segments $S^V_i, S^V_j$, was constrained to
-preserve \emph{non-adjacency} among the different segments; \ie, any
-two segments $S^V_i, S^V_k$ are allowed to be adjacent (have pixels
-that are 4-connected between them) if the corresponding segments in
-$S^U_i, S^U_k$ were also adjacent,
+where $d$ is a dilation distance that reflects the maximum possible
+structural change between $U$ and $V$~\cite{waggoner:11}.  In
+addition, the \smooth{} term $\Phi_{pq}(S_i^V , S_j^V)$, which
+represents a cost for a pair of neighboring pixels $p,q$ being
+assigned to two (possibly the same) segments $S^V_i, S^V_j$, was
+constrained to preserve \emph{non-adjacency} segment relationships
+from $U$ to $V$; \ie, any two segments $S^V_i, S^V_j$ are allowed to
+be adjacent (have pixels that are 4-connected between them) if the
+corresponding segments in $S^U_i, S^U_j$ are also adjacent,
 \begin{equation} \Phi_{pq}(S^V_i , S^V_j) = \left\{
     \begin{array}{lcr}
       0, & i = j \\
@@ -252,58 +256,54 @@ $S^U_i, S^U_k$ were also adjacent,
   \label{eq:phi}
 \end{equation}
 where $\mathcal{A}^U$ contains segment pairs that are adjacent in
-$S^U$.  An example is shown in \fig{full-ex}, where $S^V_1$ and $S^V_2$
-are allowed to be adjacent because $S^U_1$ and $S^U_2$ were adjacent
-in $S^U$.  However, $S^V_1$ and $S^V_4$ have an infinity penalty
-because $S^U_1$ and $S^U_4$ are not adjacent in $S^U$.  This topology
-constraint was found to be particularly important for materials
-images, and our proposed method was able to outperform other methods
-that did not incorporate such a prior.
+$S^U$, and we set $g(p,q)$ to reflect the image boundary information
+in $V$~\cite{waggoner:11}.  An example is shown in \fig{full-ex},
+where $S^V_1$ and $S^V_2$ are allowed to be adjacent because $S^U_1$
+and $S^U_2$ were adjacent in $S^U$.  However, $S^V_1$ and $S^V_4$ have
+an infinity penalty because $S^U_1$ and $S^U_4$ are not adjacent in
+$S^U$.  This topology constraint was found to be particularly
+important for materials images, and our proposed method was able to
+outperform other methods that did not incorporate such a prior.
 
-This formulation was shown to be minimizable to a local
-optimum~\cite{veksler:99, boykov:01}.  However, one phenomenon that
-was observed in this previous work was that, during propagation,
-topology might not be fully consistent.  For example, a new structure
-that was not present in the known slice $S^U$ might appear in $S^V$,
-\eg the structure in the yellow circle in \fig{full-ex}.  Similarly,
-a structure in $S^U$ might not be present in $S^V$, such as the
-structure circled in magenta in \fig{full-ex}.  This breaks the
-topology constraints given in \eq{phi}, which leads to segmentations
-where spurious segments are left behind, as shown by the structure
-circled in green in \fig{full-ex}, or newly-appearing structures are
-not given an independent segment, as shown by the structure circled in
-blue in \fig{full-ex}.  The previous method made use of a brute-force
-automated approach to identify structures that were ``appearing'' or
-``disappearing'' in the new slice $S^V$, and add or remove them,
-respectfully.  However, particularly when the inter-slice distance is
-too large, it is not possible to predict every location where such
-structures may appear or disappear.  Thus, for the proposed
-interactive segmentation we discuss in this paper, our desire is to
-\emph{resegment} the segmentation $S^V$ by interactively allowing the
-user to specify areas for correction (\ie structures that should have
-disappeared, or were not identified in $S^V$) and producing a
-corrected $S^{\tilde{V}}$ segmentation for the same image $V$.  We
-propose to allow the user to correct these two types of segmentation
-errors within this framework by: 1) annotating the location of a new
-segment to handle cases where a new structure appears in slice $V$,
-and 2) annotation of existing segments that should no longer be
-present in segmentation $S^V$.  % These cases correspond to the
-% aforementioned cases where a substructure did not dissappear as it
-% should, or a new appearing structure was not identified, respectively.
-Other errors, such as misplaced boundaries, can be corrected by
-combinations of the above operations, \eg, merging two segments and
-then introducing a new segment at the correct location.
+While finding the global minimum to this cost is NP-hard, this cost
+has been shown to be minimizable to a local optimum using a graph-cut
+approach~\cite{veksler:99, boykov:01}.  However, one phenomenon that
+was observed in this previous work was that, during propagation, 2D
+structure topology between $U$ and $V$ might not always be fully
+consistent.  For example, a new 3D structure with no intersection in
+slice $U$ might appear in slice $V$, \eg, the structure in the yellow
+circle in \fig{full-ex}.  Similarly, a 3D structure intersected by
+slice $U$ might disappear in slice $V$, such as the structure circled
+in magenta in \fig{full-ex}.  This breaks the topology constraints
+given in \eq{phi} in some local regions.  This may lead to spurious
+segments and missing structures, as circled in green and blue
+respectively, in \fig{full-ex}.  
 
-These interactions are inherently local, since the human annotation
-only affects a small area within the larger image.  The previous
-propagation method segmented entire slices, which was more
-computationally intensive than is desirable in an interactive system,
-which should respond instantaneously to user feedback.  So, to make
-our interactive system more responsive when the user is providing
-annotations, we wish to restrict our interactive operations to small,
-local regions within a segmentation instead of resegmenting the entire
-image with the new annotations.  We will further discuss the two
-approaches, and how we identify local regions for each, in the
+The previous method made use of a brute-force automated search to
+locate such spurious and missing structures in $V$~\cite{waggoner:11}.
+However, particularly when the inter-slice distance is too large, it
+is not possible to examine every location for possible spurious or
+missing structures.  In this paper, our goal is to develop effective
+interactive tools to allow a user to conveniently specify the local
+areas that contain spurious or missing structures, and incorporate
+such interactions to refine the segmentation $S^V$ to a corrected
+$S^{\tilde{V}}$ on slice $V$, using the same energy minimization
+algorithm.  more specifically, we propose to allow the user to correct
+these two types of segmentation errors within this framework by: a)
+annotating the location of a new segment to handle cases where a new
+structure appears in slice $V$, and b) annotation of existing segments
+that should no longer be present in segmentation $S^V$.
+
+These interactions are inherently local because the 2D cross section
+of a 3D structure shows very small size before appearing or
+disappearing from a neighboring 2D slice.  Therefore, correcting $S^V$
+to $S^{\tilde{V}}$ can be achieved by using the same energy
+minimization in a local image areas around the interactive
+annotations.  This is also important because interactive segmentation
+requires instantaneous user feedback.  The previous propagation method
+segmented entire slices, which was more computationally intensive than
+is desirable in an interactive system.  We will further discuss these
+two interactions, and how we identify local regions for each, in the
 following subsections.
 
 \subsection{Removal}
