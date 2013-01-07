@@ -27,6 +27,7 @@ deploy:
 	cd .. ; tar -czhv --exclude=.* -f $(proj).tar.gz $(proj)/
 	cp ../$(proj).tar.gz ~/tmp/forSong/
 	cp $(proj).pdf ~/tmp/forSong/
+	scp $(proj).pdf eos:~/public_html/papers/
 
 
 clean:
