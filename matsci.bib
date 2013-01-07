@@ -18,8 +18,8 @@ string{ICCV     = {ICCV}}
 string{NIPS     = {NIPS}}
 @string{IEEEIP   = {{IEEE} Transactions on Image Processing}}
 @string{IEEEMI   = {{IEEE} Transactions on Medical Imaging}}
-string{IEEEPAMI  = {{IEEE} Transactions on Pattern Analysis and Machine Intelligence}}
-@string{IEEEPAMI  = {{IEEE} TPAMI}}
+@string{IEEEPAMI  = {{IEEE} Transactions on Pattern Analysis and Machine Intelligence}}
+string{IEEEPAMI  = {{IEEE} TPAMI}}
 string{IEEEPAMI = {TPAMI}}
 @string{IJCV      = {International Journal of Computer Vision}}
 string{IJCV     = {IJCV}}
@@ -38,6 +38,7 @@ string{VIS    = {VIS}}
 string{CAIP      = {CAIP}}
 string{TMI      = {TMI}}
 @string{TMI      = {{IEEE} Transactions on Medical Imaging}}
+@string{MICCAI   = {Medical Image Computing and Computer-Assisted Intervention}}
 
 @Book{abelson:96,
   author =	 {H. Abelson and G. J. Sussman and J. Sussman},
@@ -299,8 +300,8 @@ string{TMI      = {TMI}}
   author =	 {Batra, D. and Kowdle, A. and Parikh, D. and Jiebo
                   Luo and Tsuhan Chen},
   booktitle =	 CVPR,
-  title =	 {iCoseg: Interactive co-segmentation with intelligent
-                  scribble guidance},
+  title =	 {{iCoseg}: Interactive co-segmentation with
+                  intelligent scribble guidance},
   year =	 2010,
   pages =	 {3169-3176},
 }
@@ -455,16 +456,8 @@ string{TMI      = {TMI}}
 
 @InCollection{boykov:00,
   author =	 {Boykov, Yuri and Jolly, Marie-Pierre},
-  affiliation =	 {Imaging and Visualization Department Siemens
-                  Corporate Research 755 College Road East, Princeton,
-                  NJ 08540 USA USA},
   title =	 {Interactive Organ Segmentation Using Graph Cuts},
-  booktitle =	 {Medical Image Computing and Computer-Assisted
-                  Intervention MICCAI 2000},
-  series =	 {Lecture Notes in Computer Science},
-  editor =	 {Delp, Scott and DiGoia, Anthony and Jaramaz,
-                  Branislav},
-  publisher =	 {Springer Berlin / Heidelberg},
+  booktitle =	 MICCAI,
   pages =	 {147-175},
   volume =	 1935,
   year =	 2000,
@@ -788,7 +781,7 @@ string{TMI      = {TMI}}
                   textured images: Analysis and further experimental
                   results},
   author =	 {Comer, M.L. and Delp, E.J.},
-  journal =	 {Image Processing, IEEE Transactions on},
+  journal =	 {{IEEE} Transactions on Image Processing},
   volume =	 9,
   number =	 10,
   pages =	 {1731-1744},
@@ -802,9 +795,6 @@ string{TMI      = {TMI}}
   title =	 {Bayesian methods for image segmentation},
   journal =	 {JOM Journal of the Minerals, Metals and Materials
                   Society},
-  publisher =	 {Springer Boston},
-  issn =	 {1047-4838},
-  keyword =	 {Chemistry and Materials Science},
   pages =	 {55-57},
   volume =	 63,
   issue =	 7,
@@ -820,7 +810,6 @@ string{TMI      = {TMI}}
   volume =	 2,
   pages =	 {650-654},
   year =	 1994,
-  organization = {IEEE}
 }
 
 @Article{comer:99,
@@ -1759,8 +1748,7 @@ Article{kolmogorov:04,
   title =	 {Segmentation of digital microscopy data for the
                   analysis of defect structures in materials using
                   nonlinear diffusion},
-  booktitle =	 {Proceedings of SPIE: Computational Imaging VI},
-  editor =	 {C. Bouman and E. Miller and I. Pollak},
+  booktitle =	 {Proceedings of SPIE (Computational Imaging VI)},
   year =	 2008,
 }
 
@@ -1787,7 +1775,7 @@ Article{kolmogorov:04,
 @Article {ibrahim:91,
   author =	 {Ibrahim, I. A. and Mohamed, F. A. and Lavernia,
                   E. J.},
-  title =	 {Particulate reinforced metal matrix composites-a
+  title =	 {Particulate reinforced metal matrix composites---a
                   review},
   journal =	 {Journal of Materials Science},
   publisher =	 {Springer Netherlands},
@@ -2188,9 +2176,10 @@ Article{kolmogorov:04,
                   {http://www.csse.uwa.edu.au/$\sim$pk/research/matlabfns/},
 }
 
+@Comment   author =	 {Zhanghui Kuang and Dirk Schnieders and Hao Zhou and Kwan-Yee Kenneth Wong and Yizhou Yu and Bo Peng},
 @InProceedings{kuang:12,
   author =	 {Zhanghui Kuang and Dirk Schnieders and Hao Zhou and
-                  Kwan-Yee Kenneth Wong and Yizhou Yu and Bo Peng},
+                  Kwan-Yee Wong and Yizhou Yu and Bo Peng},
   title =	 {Learning image-specific parameters for interactive
                   segmentation},
   booktitle =	 CVPR,
@@ -2699,12 +2688,9 @@ Article{kolmogorov:04,
   title =	 {Intelligent scissors for image composition},
   booktitle =	 {Proceedings of the 22nd annual conference on
                   Computer graphics and interactive techniques},
-  series =	 {SIGGRAPH '95},
   year =	 1995,
   pages =	 {191-198},
   numpages =	 8,
-  publisher =	 {ACM},
-  address =	 {New York, NY, USA},
 } 
 
 @InProceedings{moukalled:09,
@@ -3301,7 +3287,7 @@ Article{kolmogorov:04,
 
 @Article{rother:04,
   author =	 {C. Rother and V. Kolmogorov and A. Blake},
-  journal =	 {ACM Transactions on Graphics (Proc. of SIGGRAPH)},
+  journal =	 {ACM Transactions on Graphics},
   number =	 3,
   pages =	 {309-314},
   title =	 {{GrabCut}: Interactive foreground extraction using
@@ -3901,10 +3887,7 @@ Video Segmentation
                   Hamprecht, F. A.},
   title =	 {Carving: scalable interactive segmentation of neural
                   volume electron microscopy images},
-  booktitle =	 {Proceedings of the 14th international conference on
-                  Medical image computing and computer-assisted
-                  intervention},
-  series =	 {MICCAI'11},
+  booktitle =	 MICCAI,
   year =	 2011,
   pages =	 {653-660},
 }
@@ -4307,7 +4290,7 @@ General
 
 @InProceedings{vezhnevets:95,
   author =	 {Vezhnevets, V. and Konouchine, V.},
-  title =	 {"{Grow-Cut}"---Interactive multi-label {N-D} image
+  title =	 {{Grow-Cut}---Interactive multi-label {N-D} image
                   segmentation},
   booktitle =	 {Graphicon},
   pages =	 {150-156},
