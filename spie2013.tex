@@ -33,7 +33,6 @@
 \input{functions.tex}
 
 \title{Interactive Grain Image Segmentation using Graph Cut Algorithms} 
-%% todo: \tilde{V} -> \tilde{S}
 
 %>>>> The author is responsible for formatting the 
 %  author list and their institutions.  Use  \skiplinehalf 
@@ -288,7 +287,7 @@ missing structures.  In this paper, our goal is to develop effective
 interactive tools to allow a user to conveniently specify the local
 areas that contain spurious or missing structures, and incorporate
 such interactions to refine the segmentation $S^V$ to a corrected
-$S^{\tilde{V}}$ on slice $V$, using the same energy minimization
+$\tilde{S}^V$ on slice $V$, using the same energy minimization
 algorithm.  more specifically, we propose to allow the user to correct
 these two types of segmentation errors within this framework by: a)
 annotating the location of a new segment to handle cases where a new
@@ -298,7 +297,7 @@ that should no longer be present in segmentation $S^V$.
 These interactions are inherently local because the 2D cross section
 of a 3D structure shows very small size before appearing or
 disappearing from a neighboring 2D slice.  Therefore, correcting $S^V$
-to $S^{\tilde{V}}$ can be achieved by using the same energy
+to $\tilde{S}^V$ can be achieved by using the same energy
 minimization in a local image areas around the interactive
 annotations.  This is also important because interactive segmentation
 requires instantaneous user feedback.  The previous propagation method
@@ -324,28 +323,24 @@ S^V_3$ surrounding the spurious segment $S^V_k$ in
 local region after modifying the $\Theta$ term to incorporate the
 interaction, resulting in an updated segmentation in this local
 region, as shown by the example in \figsub{removal-ex}{b}.
-%% todo: add middle figure that still has S^V_k
 \begin{figure}[htbp]
 \centering
-\subfloat[]{\includegraphics[width=0.33\linewidth]{fig/aaa.pdf}}
+\subfloat[]{\includegraphics[width=0.32\linewidth]{fig/aaa.pdf}}
 \hspace{0.1em}
-\subfloat[]{\includegraphics[width=0.33\linewidth]{fig/aac}}
+\subfloat[]{\includegraphics[width=0.32\linewidth]{fig/aad}}
+\hspace{0.1em}
+\subfloat[]{\includegraphics[width=0.32\linewidth]{fig/aac}}
 \caption{Example selection of a spurious segment $S^V_k$ for removal.
   \textbf{(a)} Chosen $S^V_k$ and surrounding segments.  \textbf{(b)}
-  Local region extracted and the updated segmentation in this
-  region.} \label{fig:removal-ex}
+  Local region extracted around $S^V_k$.  \textbf{(c)} The updated
+  segmentation in the extracted local region.}
+\label{fig:removal-ex}
 \end{figure}
-
-%% To identify the local neighborhood in which we should run the proposed
-%% interactive segmentation for segment removal, we must first identify
-%% the neighbors of the spurious segment.
 
 For ease of notation, we use similar notation to the adjacency
 definition in \eq{phi} by using $\{\mathcal{A}^V\}_k$ to refer to the
-set of segments neighboring the segment $S^V_k$.  This way, the local region for updating the segmentation is
-%% So by grouping all
-%% the pixels in the removed segment and its adjacent segments, we form
-%% the local region on which we run the energy minimization,
+set of segments neighboring the segment $S^V_k$.  This way, the local
+region for updating the segmentation is
 \begin{equation}
   \mathcal{L} = \{\mathcal{A}^V\}_k \bigcup S^V_k .
 \end{equation}
@@ -358,13 +353,13 @@ segments in $\{\mathcal{A}^V\}_k$ with $0$ cost for the $\Theta$ term,
 \ie,
 \begin{equation}\label{eq:remove}
 \begin{aligned}
- \forall p \in S^V_k ,& \quad \Theta_p(S^{\tilde{V}}_i) = \left\{
+ \forall p \in S^V_k ,& \quad \Theta_p(\tilde{S}^V_i) = \left\{
    \begin{array}{lcr}
      0, & S^V_i \in \{\mathcal{A}^V\}_k  \\
      \infty, & \textrm{ otherwise} \\
    \end{array}
  \right. \\
-\forall p \notin S^V_k ,& \quad \Theta_p(S^{\tilde{V}}_i) = \Theta_p(S^V_i)
+\forall p \notin S^V_k ,& \quad \Theta_p(\tilde{S}^V_i) = \Theta_p(S^V_i)
 \end{aligned}
 \end{equation}
 By updating $\Theta$ in this fashion, we do not require the pixels
@@ -376,7 +371,6 @@ Note that this interaction is very simple and convenient, as it
 requires only a single click anywhere inside the spurious segment
 $S^V_k$.  The full algorithm for removing spurious segments is
 summarized in \alg{remove}.
-
 \begin{algorithm}[!t]
   \centering
   \algrenewcommand\algorithmicforall{\textbf{for each}}
@@ -386,8 +380,8 @@ summarized in \alg{remove}.
     \State $\mathcal{L} \gets \{\mathcal{A}^V\}_k \bigcup S^V_k$
     \State $\forall p \in \mathcal{L}$, build graph for energy minimization problem from~\cite{waggoner:11}
     \State $\Theta \gets $ set from \eq{remove}
-    \State $S^{\tilde{V}} \gets S^V$ incorporating the updated segmentation in $\mathcal{L}$
-    \State \textbf{return} updated $S^{\tilde{V}}$
+    \State $\tilde{S}^V \gets S^V$ incorporating the updated segmentation in $\mathcal{L}$
+    \State \textbf{return} updated $\tilde{S}^V$
     \EndFunction
   \end{algorithmic}
   \caption{Interactively specifying segment to remove.}
@@ -408,7 +402,7 @@ specified by the user.
 
 Based on the initial segmentation $S^V = \{ S^V_1, S^V_2, \ldots,
 S^V_n \} $, we take as input from the user an annotation specifying
-the center location $c$ of the new segment $S^{\tilde{V}}_{n+1}$.  In
+the center location $c$ of the new segment $\tilde{S}^V_{n+1}$.  In
 addition to this, we also accept two parameters from the user: 1) the
 \emph{seed} radius $s$ specifying a circular region around $c$ such
 that this circular region is completely contained within the missing
@@ -427,14 +421,13 @@ missing segment that is added, as shown by the blue area in
 conceptually simple for the user to tune.  In \sect{param}, we discuss
 how to automate the selection of $s$ and $d$ to further reduce the
 user's burden when interactively segmenting a materials volume.
-%% todo: blank out unrelated sections of figure
 \begin{figure}[htbp]
 \centering
 \subfloat[]{\includegraphics[width=0.30\linewidth]{fig/bba}}
 \hspace{0.1em}
 \subfloat[]{\includegraphics[width=0.30\linewidth]{fig/bbb.pdf}}
 \hspace{0.1em}
-\subfloat[]{\includegraphics[width=0.30\linewidth]{fig/bbc}}
+\subfloat[]{\includegraphics[width=0.30\linewidth]{fig/bbd}}
 \caption{Annotating the addition of a missing segment.  \textbf{(a)}
   Segmentation $S^V$ with a missing segment near the center of the
   image.  \textbf{(b)} Annotation of a center point $c$, along with a
@@ -451,10 +444,10 @@ that contain one or more seed or dilation pixels.  In this local
 region we modify the $\Theta$ term of the energy minimization in
 \eq{energy1} to obtain an updated segmentation.  Specifically, we
 allow all seed and dilation pixels to be reassigned to the new segment
-$S^{\tilde{V}}_{n+1}$ by setting
+$\tilde{S}^V_{n+1}$ by setting
 \begin{equation}
   \label{eq:d}
-  \Theta_p(S^{\tilde{V}}_{n+1}) = \left\{
+  \Theta_p(\tilde{S}^V_{n+1}) = \left\{
     \begin{array}{lcr}
       0, & \| p - c \| \leq d  \\
       \infty, & \textrm{ otherwise} \\
@@ -466,11 +459,11 @@ $c$.  %% Though this is necessary to include the new segment in the
 %% energy minimization, it is not sufficient to guarantee that it will
 %% appear in the final segmentation.
 Furthermore, to insure that the seed pixels are always guaranteed to
-be part of $S^{\tilde{V}}_{n+1}$ we set an infinity penalty for seed
-pixels assigned to any segment other than $S^{\tilde{V}}_{n+1}$, 
+be part of $\tilde{S}^V_{n+1}$ we set an infinity penalty for seed
+pixels assigned to any segment other than $\tilde{S}^V_{n+1}$, 
 \begin{equation}
   \label{eq:s}
-  \Theta_p(S^{\tilde{V}}_i) = \left\{
+  \Theta_p(\tilde{S}^V_i) = \left\{
     \begin{array}{lcr}
       \infty, & \| p - c \| \leq s \textrm{ and } i \neq n+1  \\
       \Theta_p(S^{V}_i), & \textrm{ otherwise.} \\
@@ -487,10 +480,10 @@ The full algorithm for adding a missing segment is summarized in
     \State $\mathcal{L} \gets$ union of all segments that contain a seed pixel or dilation pixel
     \State $\forall p \in \mathcal{L}$, build graph for energy minimization problem from~\cite{waggoner:11}
     \State $\Theta \gets $ set from \eq{d} and \eq{s}
-    %% \State $S^{\tilde{V}} \gets S^V$ updated with the pixels assigned in $\mathcal{L}$
-    \State $S^{\tilde{V}} \gets S^V$ incorporating the updated segmentation in $\mathcal{L}$
-    % \State $ S^{\tilde{V}} \gets $ minimization of energy in local region and copied to $S^V$
-    \State \textbf{return} updated $S^{\tilde{V}}$
+    %% \State $\tilde{S}^V \gets S^V$ updated with the pixels assigned in $\mathcal{L}$
+    \State $\tilde{S}^V \gets S^V$ incorporating the updated segmentation in $\mathcal{L}$
+    % \State $ \tilde{S}^V \gets $ minimization of energy in local region and copied to $S^V$
+    \State \textbf{return} updated $\tilde{S}^V$
     \EndFunction
   \end{algorithmic}
   \caption{Interactively specifying segment to add.}
@@ -538,11 +531,10 @@ generate the updated segmentation shown in \figsub{param}{d}.
   radius~$d$.  \textbf{(a)}~A missing segment located within a large
   segment in $S^V_b$.  \textbf{(b-c)}~Selections of~$c$ at varying
   distances from the boundary of $S^V_b$, resulting in different
-  estimations of~$s$.  \textbf{(d)}~Updated $S^{\tilde{V}}$ by adding
+  estimations of~$s$.  \textbf{(d)}~Updated $\tilde{S}^V$ by adding
   a missing segment using the $c$ shown~(b) and the proposed parameter
   estimation method to determine $s$.} \label{fig:param}
 \end{figure}
-%% todo: add tilde to (d)
 
 To obtain an estimation of $s$ we start by setting $s=0$, and we then
 increase $s$ by a small $\epsilon$ amount until the circle centered at
@@ -584,8 +576,6 @@ effort.
 \section{Experiments}
 \label{sec:ex}
 
-%% todo: add performance comparison
-
 To evaluate the proposed interactive segmentation method, we use it to
 segment a sequence of~$11$ (indexed from $0$ to $10$) microscopic
 titanium images~\cite{rowenhorst:10} provided by Dave Rowenhorst, NRL.
@@ -626,8 +616,6 @@ more effort and time to segment compared with the remaining slices.
   segment the 11 sample slices.  Smaller values are better, for both
   figures.} \label{fig:ex}
 \end{figure}
-%% todo: index by 0
-%% todo: Time (Minutes)
 From \fig{ex}, we can see that the method proposed in this paper
 (``Proposed'') allows much more rapid segmentation time ($< 5$ minutes
 in most cases) and with much less effort ($< 100$ clicks in most
@@ -654,7 +642,6 @@ the proposed method.
   segmentation.}
 \label{fig:perform}
 \end{figure}
-%% todo: copy updated figures in here with proper y-axis labels
 
 In \fig{perform}, we show that the proposed interactive method is able
 to increase the segmentation accuracy of our state-of-the-art
@@ -716,7 +703,7 @@ annotation, and the updated segmentation.
   automatic segmentation $S^V$ (left); the human annotation (middle)
   with the seed pixels in green and dilation pixels in blue, and
   ``X''s indicating spurious segments to be removed; and the updated
-  segmentation $S^{\tilde{V}}$ (right).  Note that (f) and (g)
+  segmentation $\tilde{S}^V$ (right).  Note that (f) and (g)
   illustrate removal annotation and the remaining illustrate addition
   annotation.}
 \label{fig:qual}

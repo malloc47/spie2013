@@ -14,8 +14,8 @@
    height="90"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
-   sodipodi:docname="New document 1">
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="bbb.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -35,8 +35,8 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1366"
-     inkscape:window-height="753"
+     inkscape:window-width="838"
+     inkscape:window-height="1033"
      inkscape:window-x="0"
      inkscape:window-y="15"
      inkscape:window-maximized="0" />
@@ -48,7 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -61,12 +61,12 @@
        y="30.219351"
        x="37.857136"
        id="image3063"
-       xlink:href="file:///home/malloc47/src/projects/matsci/spie2013/fig/bba.png"
+       xlink:href="file:///home/malloc47/src/projects/matsci/spie2013/fig/bbe.png"
        height="90"
        width="90" />
     <path
        transform="matrix(-1,0,0,1,126.42856,30.219351)"
-       d="m 65.357141,45.357143 a 21.071428,21.071428 0 1 1 -42.142856,0 21.071428,21.071428 0 1 1 42.142856,0 z"
+       d="m 65.357141,45.357143 c 0,11.637429 -9.433999,21.071429 -21.071428,21.071429 -11.637428,0 -21.071428,-9.434 -21.071428,-21.071429 0,-11.637428 9.434,-21.071428 21.071428,-21.071428 11.637429,0 21.071428,9.434 21.071428,21.071428 z"
        sodipodi:ry="21.071428"
        sodipodi:rx="21.071428"
        sodipodi:cy="45.357143"
@@ -106,7 +106,7 @@
        sodipodi:cy="45.357143"
        sodipodi:rx="5.1785712"
        sodipodi:ry="5.1785712"
-       d="m 49.464284,45.357143 a 5.1785712,5.1785712 0 1 1 -10.357142,0 5.1785712,5.1785712 0 1 1 10.357142,0 z"
+       d="m 49.464284,45.357143 c 0,2.860046 -2.318525,5.178572 -5.178571,5.178572 -2.860046,0 -5.178571,-2.318526 -5.178571,-5.178572 0,-2.860046 2.318525,-5.178571 5.178571,-5.178571 2.860046,0 5.178571,2.318525 5.178571,5.178571 z"
        transform="translate(37.857136,30.219351)" />
     <text
        xml:space="preserve"
@@ -122,7 +122,7 @@
          style="font-size:10px;fill:#ffffff">c</tspan></text>
     <path
        transform="translate(37.857136,30.219351)"
-       d="m 44.981733,45.357143 a 0.69601935,0.69601935 0 1 1 -1.392039,0 0.69601935,0.69601935 0 1 1 1.392039,0 z"
+       d="m 44.981733,45.357143 c 0,0.384401 -0.311619,0.69602 -0.69602,0.69602 -0.384401,0 -0.696019,-0.311619 -0.696019,-0.69602 0,-0.3844 0.311618,-0.696019 0.696019,-0.696019 0.384401,0 0.69602,0.311619 0.69602,0.696019 z"
        sodipodi:ry="0.69601935"
        sodipodi:rx="0.69601935"
        sodipodi:cy="45.357143"
