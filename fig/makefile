@@ -16,6 +16,9 @@ all: $(PDF) $(PDF2)
 %.pdf: %.svg
 	inkscape --without-gui --export-pdf $@ $< 
 
+%.png: %.svg
+	inkscape --without-gui --export-png $@ $< 
+
 %.eps: %.svg
 	inkscape --without-gui --export-eps $@ $< 
 
