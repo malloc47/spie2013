@@ -71,7 +71,7 @@
 	    <tr> <td>$V$</td> <td>: Target image that is not segmented</td> </tr>
 	    <tr> <td>$S^U, S^V$</td> <td>: Segmentation of $U$ or $V$ respectivesly</td> </tr>
 	  </table><br />
-	  <p>A segmentation $S^U$ is a <emphasis>partition</emphasis> of the pixels in $U$:<br /><br />
+	  <p>A segmentation $S^U$ is a <em>partition</em> of the pixels in $U$:<br /><br />
 	    \[S^U = \{ S^U_1, S^U_2, \ldots, S^U_n \}  \]
 	  \[ U = \bigcup_{i=1}^{n} S^U_i \] </p>
 	</section>
@@ -147,16 +147,24 @@
 	</section>
 
 	<section>
-	  <h3>Removal</h3>
-	  <p style="text-align: left;">We require only a single annotation (click) identifying a
-	  particular segment $S^V_k$ to be removed, which is done in
-	  two steps:</p>
-	  <ul>
-	    <li style="padding-bottom:1em;">Identify local region for
+	  <section>
+	    <h3>Removal Input</h3>
+	    <p style="text-align: left;">We require only a single
+	      annotation (click) identifying a particular segment
+	      $S^V_k$ to be removed, which is done in two steps:</p>
+	  </section>
+
+	  <section>
+	    <h3>Identify Local Region</h3>
+	    <p>Identify local region for
 	    removal $\mathcal{L} = \{\mathcal{A}^V\}_k \bigcup S^V_k$
 	    where $\{\mathcal{A}^V\}_k$ is all the segments adjacent
-	    to the segment to be removed</li>
-	    <li>Update the unary term to allow $S^V_k$ to be
+	    to the segment to be removed</p>
+	  </section>
+
+	  <section>
+	    <h3>Update Energy Terms</h3>
+	    <p>Update the unary term to allow $S^V_k$ to be
 	    labeled by its neighbors:<br />
 	      \begin{equation}\label{eq:remove}
                 \begin{aligned}
@@ -168,9 +176,8 @@
                   \right. \\
                   \forall p \notin S^V_k ,& \quad \Theta_p(\tilde{S}^V_i) = \Theta_p(S^V_i)
                 \end{aligned}
-              \end{equation}
-	    </li>
-	  </ul>
+              \end{equation}</p>
+	  </section>
 	</section>
 
 	<section>
@@ -187,6 +194,19 @@
 	<section>
 	  <h3>Removal: Live Demo</h3>
 	  <p>Live demo here</p>
+	</section>
+
+	<section>
+	  <h1>Addition</h1>
+	</section>
+
+	<section>
+	  <h3>Addition Input</h3>
+	  <p>Require three elements:</p>
+	  <ul>
+	    <li>Center point for new region</li>
+	    <li><em>Guaranteed</em></li>
+	  </ul>
 	</section>
 
       </div>
