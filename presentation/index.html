@@ -21,11 +21,18 @@
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
 	extensions: ["tex2jax.js"],
-	jax: ["input/TeX","output/HTML-CSS"],
+	jax: ["input/TeX","output/SVG"],
 	tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
     });
     </script>
     <script type="text/javascript" src="mathjax/MathJax.js"></script>
+    <!-- <style type="text/css"> -->
+    <!--   li { -->
+    <!--   padding: 1em; -->
+    <!--   } -->
+    <!-- </style> -->
+    <style type="text/css">
+    </style>
 
     <!--[if lt IE 9]>
 	<script src="lib/js/html5shiv.js"></script>
@@ -49,15 +56,137 @@
 	    <small><a href="mailto:ayman.salem@icmrl.net">Ayman Salem</a>$^3$,</small>
 	    <small><a href="mailto:degraef@cmu.edu">Marc De Graef</a>$^4$,</small>
 	    <small><a href="mailto:songwang@cec.sc.edu">Song Wang</a>$^1$</small>
-	  </p>
+	  </p><br />
 	  <p><small>$^1$USC, $^2$AFOSR, $^3$<a href="http://www.materialsresources.com/index-2.html">MRi</a>, $^4$CMU</small></p>
 	</section>
 
 	<section>
-	  <h3>Test</h3>
+	  <img src="../fig/dd.png" alt="Propagation" style="border:none; box-shadow:none;">
+	</section>
+
+	<section>
+	  <h3>Notation</h3>
+	  <table>
+	    <tr> <td>$U$</td><td>: Source image that is segmented</td> </tr>
+	    <tr> <td>$V$</td> <td>: Target image that is not segmented</td> </tr>
+	    <tr> <td>$S^U, S^V$</td> <td>: Segmentation of $U$ or $V$ respectivesly</td> </tr>
+	  </table><br />
+	  <p>A segmentation $S^U$ is a <emphasis>partition</emphasis> of the pixels in $U$:<br /><br />
+	    \[S^U = \{ S^U_1, S^U_2, \ldots, S^U_n \}  \]
+	  \[ U = \bigcup_{i=1}^{n} S^U_i \] </p>
+	</section>
+
+	<section>
+	  <h3>Propagation</h3>
+
+	  <p>We wish to obtain $S^V$ by propagating $S^U$ to $V$</p><br />
+
+	  <p>In our previous work, this was done by using an energy minimization of the form<br /><br />
+	  \begin{equation}
+	  E( S^V ) = \sum_{p\in V}\Theta_p(S^V_i) + 
+	  \sum_{\{p,q\}\in\mathcal{P}^V_n} \Phi_{pq}(S_i^V , S_j^V)
+	  \end{equation}</p>
+	</section>
+
+	<section>
+	  <h3>Unary and Binary Terms</h3>
+	  <br />
 	  <p>
-	    \[ e^{i\pi} = -1 \]
-	  </p>
+          \begin{equation}
+            \Theta_p(S^{V}_i) = \left\{
+            \begin{array}{lcr}
+              0, &  \textrm{distance}(p,S^U_i) < d  \\
+              \infty, & \textrm{ otherwise} \\
+            \end{array}
+            \right.
+            \label{eq:theta}
+          \end{equation}
+          </p>
+	  <br />
+	  <p>
+          \begin{equation} \Phi_{pq}(S^V_i , S^V_j) = \left\{
+            \begin{array}{lcr}
+              0, & i = j \\
+              \infty, & \{ S^U_i, S^U_j \} \notin \mathcal{A}^U  \\
+              g( p, q ), & \{ S^U_i, S^U_j \} \in \mathcal{A}^U \\
+            \end{array}
+            \right. ,
+            \label{eq:phi}
+          \end{equation}
+          </p>
+	</section>
+
+	<section>
+	  <img src="../fig/dd.png" alt="Propagation" style="border:none; box-shadow:none;">
+	</section>
+
+	<section>
+	  <h3>Limitations</h3>
+	  <ul>
+	    <li>Must use heuristics to determine where to add new segments</li>
+	    <li>Topology constraints may not allow the removal of some
+	    segments</li>
+	  </ul>
+	</section>
+
+	<section>
+	  <h1>Goal:</h1>
+	  <p style="text-align: left;">Incorporate human interaction
+	  into the segmentation task to</p>
+	  <ul>
+	    <li style="padding-bottom:1em;">Remove Spurious Segments</li>
+	    <li style="padding-bottom:1em;">Add Missing Segments</li>
+	  </ul>
+	  <p style="text-align: left;">Do this with minimal
+	  interaction, producing an updated segmentation
+	  $\tilde{S}^V_i$</p>
+	</section>
+
+	<section>
+	  <h1>Removal</h1>
+	</section>
+
+	<section>
+	  <h3>Removal</h3>
+	  <p style="text-align: left;">We require only a single annotation (click) identifying a
+	  particular segment $S^V_k$ to be removed, which is done in
+	  two steps:</p>
+	  <ul>
+	    <li style="padding-bottom:1em;">Identify local region for
+	    removal $\mathcal{L} = \{\mathcal{A}^V\}_k \bigcup S^V_k$
+	    where $\{\mathcal{A}^V\}_k$ is all the segments adjacent
+	    to the segment to be removed</li>
+	    <li>Update the unary term to allow $S^V_k$ to be
+	    labeled by its neighbors:<br />
+	      \begin{equation}\label{eq:remove}
+                \begin{aligned}
+                  \forall p \in S^V_k ,& \quad \Theta_p(\tilde{S}^V_i) = \left\{
+                  \begin{array}{lcr}
+                    0, & S^V_i \in \{\mathcal{A}^V\}_k  \\
+                    \infty, & \textrm{ otherwise} \\
+                  \end{array}
+                  \right. \\
+                  \forall p \notin S^V_k ,& \quad \Theta_p(\tilde{S}^V_i) = \Theta_p(S^V_i)
+                \end{aligned}
+              \end{equation}
+	    </li>
+	  </ul>
+	</section>
+
+	<section>
+	  <img src="../fig/p-aaa.png" height="260" style="border:none; box-shadow:none;">
+	  <img src="../fig/aad.png" height="260" style="border:none; box-shadow:none;">
+	  <img src="../fig/aac.png" height="260" style="border:none; box-shadow:none;">
+	</section>
+
+	<section>
+	  <h3>Removal Algorithm</h3>
+	  <img src="fig/alg1.png" style="border:none;">
+	</section>
+
+	<section>
+	  <h3>Removal: Live Demo</h3>
+	  <p>Live demo here</p>
 	</section>
 
       </div>
