@@ -1,3 +1,6 @@
 [submodule "presentation/reveal"]
 	path = presentation/reveal
 	url = git://github.com/hakimel/reveal.js.git
+[submodule "presentation/mathjax"]
+	path = presentation/mathjax
+	url = git://github.com/mathjax/MathJax.git
