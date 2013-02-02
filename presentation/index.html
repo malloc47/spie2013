@@ -201,12 +201,61 @@
 	</section>
 
 	<section>
-	  <h3>Addition Input</h3>
-	  <p>Require three elements:</p>
-	  <ul>
-	    <li>Center point for new region</li>
-	    <li><em>Guaranteed</em></li>
-	  </ul>
+	  <section>
+	    <h3>Addition Input</h3>
+	    <p>Require three elements:</p>
+	    <ul>
+	      <li><strong>Center</strong> point $c$ for new region</li>
+	      <li><strong>Seed</strong> radius $s$ around the center
+	        point which results in a region that is completely
+	        contained within the desired grain</li>
+	      <li><strong>Dilation</strong> size $d$ around the center
+	        point which results in a region completely covering
+	        the desired grain</li>
+	    </ul>
+	  </section>
+	  <section>
+	    <h3>Local Region</h3> 
+            <p>$\mathcal{L} \gets$ union of all segments that contain
+            a seed pixel or dilation pixel</p>
+	  </section>
+	  <section>
+	    <h3>Update Energy Terms</h3> 
+            <p>\begin{equation}
+              \label{eq:d}
+              \Theta_p(\tilde{S}^V_{n+1}) = \left\{
+                \begin{array}{lcr}
+                  0, & \| p - c \| \leq d  \\
+                  \infty, & \textrm{ otherwise} \\
+                \end{array}
+              \right.
+            \end{equation}
+            \begin{equation}
+              \label{eq:s}
+              \Theta_p(\tilde{S}^V_i) = \left\{
+                \begin{array}{lcr}
+                  \infty, & \| p - c \| \leq s \textrm{ and } i \neq n+1  \\
+                  \Theta_p(S^{V}_i), & \textrm{ otherwise.} \\
+                \end{array}
+              \right.
+            \end{equation}</p>
+	  </section>
+	</section>
+
+	<section>
+	  <img src="../fig/bba.png" height="260" style="border:none; box-shadow:none;">
+	  <img src="../fig/p-bbb.png" height="260" style="border:none; box-shadow:none;">
+	  <img src="../fig/bbd.png" height="260" style="border:none; box-shadow:none;">
+	</section>
+
+	<section>
+	  <h3>Addition Algorithm</h3>
+	  <img src="fig/alg2.png" style="border:none;">
+	</section>
+
+	<section>
+	  <h3>Addition: Live Demo</h3>
+	  <p>Live demo here</p>
 	</section>
 
       </div>
