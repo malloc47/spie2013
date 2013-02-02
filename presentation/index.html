@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
   <head>
     <meta charset="utf-8">
 
@@ -22,18 +21,14 @@
     MathJax.Hub.Config({
 	extensions: ["tex2jax.js"],
 	jax: ["input/TeX","output/SVG"],
+        //TeX: { equationNumbers: { autoNumber: "AMS" } },
 	tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
     });
     </script>
     <script type="text/javascript" src="mathjax/MathJax.js"></script>
-    <!-- <style type="text/css"> -->
-    <!--   li { -->
-    <!--   padding: 1em; -->
-    <!--   } -->
-    <!-- </style> -->
+    <script type="text/javascript" src="jquery-1.9.0.min.js"></script>
     <style type="text/css">
     </style>
-
     <!--[if lt IE 9]>
 	<script src="lib/js/html5shiv.js"></script>
 	<![endif]-->
@@ -58,6 +53,37 @@
 	    <small><a href="mailto:songwang@cec.sc.edu">Song Wang</a>$^1$</small>
 	  </p><br />
 	  <p><small>$^1$USC, $^2$AFOSR, $^3$<a href="http://www.materialsresources.com/index-2.html">MRi</a>, $^4$CMU</small></p>
+	</section>
+
+        <section>
+	  <h3>Interactive Segmentation?</h3>
+          <ul>
+            <li>Constrasted with fully-automatic segmentation</li>
+            <li>Incorporates a sparse number of user interactions as
+            additional constraints or guidance in the segmentation
+            process</li>
+            <li>Examples from related literature to identify an object
+            of interest include:
+              <ul>
+                <li>Drawing a bounding box</li>
+                <li>Coarsly outling the desired boundary</li>
+                <li>Identifying regions of foreground/background</li>
+              </ul>
+            </li>
+          </ul>
+	</section>
+
+        <section>
+	  <h3>Our Approach</h3>
+          <ul>
+            <li>Build on our previous <strong>propagation</strong>
+            method which only used a single initialization</li>
+            <li>Correct errors after every propagation with
+            a <strong>single point</strong> (click) as the
+            user-supplied interaction</li>
+            <li>Reduce manual labor as much as possible (few clicks)
+            while improving quality of the segmentation</li>
+          </ul>
 	</section>
 
 	<section>
@@ -116,8 +142,10 @@
           </p>
 	</section>
 
-	<section>
-	  <img src="../fig/dd.png" alt="Propagation" style="border:none; box-shadow:none;">
+	<section data-state="playvideo">
+          <video id="alpha-beta" height="300" src="fig/alpha-beta.webm" autobuffer>
+	    <img src="../fig/dd.png" alt="Propagation" style="border:none; box-shadow:none;">
+          </video>
 	</section>
 
 	<section>
@@ -193,7 +221,8 @@
 
 	<section>
 	  <h3>Removal: Live Demo</h3>
-	  <p>Live demo here</p>
+          <img id="remu" height="250" src="http://127.0.0.1:8000/raw/?dataset=c3&slice=1" style="border:none;">
+          <img id="remv" height="250" src="http://127.0.0.1:8000/raw/?dataset=c3&slice=3" style="border:none;">
 	</section>
 
 	<section>
@@ -294,17 +323,17 @@
 
         <section>
 	  <h3>Performance</h3>
-          <img src="../fig/eval_f.png" style="border:none;">
+          <img src="../fig/eval_f.png" height="500" style="border:none;">
 	</section>
 
         <section>
 	  <h3>Effort</h3>
-          <img src="../fig/eval.png" style="border:none;">
+          <img src="../fig/eval.png" height="500" style="border:none;">
 	</section>
 
         <section>
 	  <h3>Time</h3>
-          <img src="../fig/eval_time.png" style="border:none;">
+          <img src="../fig/eval_time.png" height="500" style="border:none;">
 	</section>
 
         <section>
@@ -313,8 +342,21 @@
 
         <section>
           <ul>
-            <li></li>
+            <li style="padding-bottom:1em;">Augmented our previous
+            propagation approach with an <strong>interactive</strong>
+            component that increases performance</li>
+            <li style="padding-bottom:1em;">We handle both
+            segmentation <strong>addition</strong>
+            and <strong>removal</strong> using minimal
+            interaction</li>
+            <li style="padding-bottom:1em;"><strong>Parameter
+            estimation</strong> reduces the time and effort
+            needed</li>
           </ul>
+	</section>
+
+        <section>
+	  <h1>Questions?</h1>
 	</section>
 
       </div>
@@ -322,33 +364,7 @@
 
     <script src="reveal/lib/js/head.min.js"></script>
     <script src="reveal/js/reveal.min.js"></script>
-
-    <script>
-
-// Full list of configuration options available here:
-// https://github.com/hakimel/reveal.js#configuration
-Reveal.initialize({
-    controls: true,
-    progress: true,
-    history: true,
-    center: true,
-
-    theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-    transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
-
-    // Optional libraries used to extend on reveal.js
-    dependencies: [
-	{ src: 'reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-	// { src: 'reveal/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-	// { src: 'reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-	{ src: 'reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-	{ src: 'reveal/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-	// { src: 'reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
-	// { src: 'reveal/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
-    ]
-});
-
-    </script>
+    <script type="text/javascript" src="setup.js"></script>
 
   </body>
 </html>
