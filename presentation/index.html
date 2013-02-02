@@ -164,7 +164,7 @@
 
 	  <section>
 	    <h3>Update Energy Terms</h3>
-	    <p>Update the unary term to allow $S^V_k$ to be
+	    <p style="text-align: left;">Update the unary term to allow $S^V_k$ to be
 	    labeled by its neighbors:<br />
 	      \begin{equation}\label{eq:remove}
                 \begin{aligned}
@@ -203,7 +203,7 @@
 	<section>
 	  <section>
 	    <h3>Addition Input</h3>
-	    <p>Require three elements:</p>
+	    <p style="text-align: left;">Require three elements:</p>
 	    <ul>
 	      <li><strong>Center</strong> point $c$ for new region</li>
 	      <li><strong>Seed</strong> radius $s$ around the center
@@ -216,7 +216,7 @@
 	  </section>
 	  <section>
 	    <h3>Local Region</h3> 
-            <p>$\mathcal{L} \gets$ union of all segments that contain
+            <p style="text-align: left;">$\mathcal{L} \gets$ union of all segments that contain
             a seed pixel or dilation pixel</p>
 	  </section>
 	  <section>
@@ -256,6 +256,55 @@
 	<section>
 	  <h3>Addition: Live Demo</h3>
 	  <p>Live demo here</p>
+	</section>
+
+	<section>
+	  <h1>Parameter Estimation</h1>
+	</section>
+
+	<section>
+	  <h3>Parameter Estimation</h3>
+          <ul>
+            <li>Estimate the $s$ and $d$ parameters in
+            the <strong>addition</strong> step</li>
+            <li>Do this by leveraging information about the center $c$
+            the user provided relative to the initial segment in which
+            it resides:
+              <ul>
+                <li>Increase $s$ by $\epsilon$ until it touches the
+                boundary of its containing segment $S^V_b$</li>
+                <li>Set $d$ to be $2\times s$</li>
+              </ul>
+            </li>
+          </ul>
+	</section>
+
+	<section>
+	  <h3>Parameter Estimation Visual Example</h3>
+          <img src="../fig/p-cca.png" height="260" style="border:none; box-shadow:none;">
+	  <img src="../fig/p-ccf.png" height="260" style="border:none; box-shadow:none;">
+          <br />
+	  <img src="../fig/p-ccg.png" height="260" style="border:none; box-shadow:none;">
+	  <img src="../fig/p-ccb.png" height="260" style="border:none; box-shadow:none;">
+	</section>
+
+	<section>
+	  <h1>Experiments</h1>
+	</section>
+
+        <section>
+	  <h3>Performance</h3>
+          <img src="../fig/eval_f.png" style="border:none;">
+	</section>
+
+        <section>
+	  <h3>Effort</h3>
+          <img src="../fig/eval.png" style="border:none;">
+	</section>
+
+        <section>
+	  <h3>Time</h3>
+          <img src="../fig/eval_time.png" style="border:none;">
 	</section>
 
       </div>
