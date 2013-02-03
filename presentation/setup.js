@@ -53,55 +53,8 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $('#remu, #remv').mousedown(function(event) {
-        // convert page offset to image offset and then normalize for
-        // the actual width of the image (only works in ff/chrome)
-        var x = Math.floor(((event.pageX - $(this).offset().left)/$(this)[0].width)*$(this)[0].naturalWidth);
-        var y = Math.floor(((event.pageY - $(this).offset().top)/$(this)[0].height)*$(this)[0].naturalHeight);
-
-        switch (event.which) {
-        case 1:
-            // toggle boolean
-            $(this).data('view',!$(this).data('view'));
-            $(this).attr('src',"http://127.0.0.1:8000/"
-                         + ($(this).data('view') ? "edge" : "raw")
-                         +"/?dataset=c3&slice="
-                         + ($(this).attr('id') === "remu" ? "1" : "3")
-                        );
-            break;
-
-        case 2:
-            if($(this).attr('id').endsWith('v')) {
-                $.ajax({
-                    url : "http://127.0.0.1:8000/reset/?dataset=c3&slice=3",
-                    dataType : 'jsonp',
-                    complete : function() {
-                        $('#remv').attr('src',"http://127.0.0.1:8000/"
-                                        + ($('#remv').data('view') ? "edge" : "raw")
-                                        +"/?dataset=c3&slice=3&"
-                                        + (new Date().getTime()));
-                    },
-                });
-            }
-            break;
-
-        case 3:
-            if($(this).attr('id').endsWith('v')) {
-                var data = {}
-                data[($(this).attr('id').startsWith('rem') ? 'removal' : 'addition')] = (x+','+y);
-                $.ajax({
-                    url : "http://127.0.0.1:8000/local/?dataset=c3&slice=3&dilation=15&size=5",
-                    data : data,
-                    dataType : 'jsonp',
-                    complete : function() {
-                        $('#remv').attr('src',"http://127.0.0.1:8000/"
-                                        + ($('#remv').data('view') ? "edge" : "raw")
-                                        +"/?dataset=c3&slice=3&"
-                                        + (new Date().getTime()));
-                    },
-                });
-            }
-            break;
-        }
-    });
+    remu = new embed.Workspace($('#remu'),'c3','1','none');
+    remv = new embed.Workspace($('#remv'),'c3','3','removal',5,15);
+    addu = new embed.Workspace($('#addu'),'c2','7','none');
+    addv = new embed.Workspace($('#addv'),'c2','8','addition',5,15);
 });
