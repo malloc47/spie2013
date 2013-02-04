@@ -69,7 +69,7 @@ var embed = function(){
     };
 
     Workspace.prototype.right = function(x,y) {
-        self = this;
+        var self = this;
         var data = { 'dataset' : self.dataset,
                      'slice'   : self.slice,
                      'size'    : self.size,
@@ -84,7 +84,7 @@ var embed = function(){
     };
 
     Workspace.prototype.middle = function(x,y) {
-        self = this;
+        var self = this;
         $.ajax({
             url : server + '/reset/',
             data : { 'dataset' : self.dataset,
