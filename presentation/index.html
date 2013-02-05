@@ -42,7 +42,7 @@
       <div class="slides">
 
 	<section>
-	  <h1>Interactive Grain Image Segmentation</h1>
+	  <h1>Interactive Grain <br /> Image Segmentation</h1>
 	  <h3>using Graph Cut Algorithms</h3>
 	  <p>
 	    <small><a href="http://www.malloc47.com">Jarrell Waggoner</a>$^1$ / <a href="http://twitter.com/malloc47">@malloc47</a> / <a href="mailto:waggonej@email.sc.edu">waggonej@email.sc.edu</a>,</small><br />
@@ -119,33 +119,33 @@
 	  \end{equation}</p>
 	</section>
 
-	<section>
-	  <h3>Unary and Binary Terms</h3>
-	  <br />
-	  <p>
-          \begin{equation}
-            \Theta_p(S^{V}_i) = \left\{
-            \begin{array}{lcr}
-              0, &  \textrm{distance}(p,S^U_i) < d  \\
-              \infty, & \textrm{ otherwise} \\
-            \end{array}
-            \right.
-            \label{eq:theta}
-          \end{equation}
-          </p>
-	  <br />
-	  <p>
-          \begin{equation} \Phi_{pq}(S^V_i , S^V_j) = \left\{
-            \begin{array}{lcr}
-              0, & i = j \\
-              \infty, & \{ S^U_i, S^U_j \} \notin \mathcal{A}^U  \\
-              g( p, q ), & \{ S^U_i, S^U_j \} \in \mathcal{A}^U \\
-            \end{array}
-            \right. ,
-            \label{eq:phi}
-          \end{equation}
-          </p>
-	</section>
+	<!-- <section> -->
+	<!--   <h3>Unary and Binary Terms</h3> -->
+	<!--   <br /> -->
+	<!--   <p> -->
+        <!--   \begin{equation} -->
+        <!--     \Theta_p(S^{V}_i) = \left\{ -->
+        <!--     \begin{array}{lcr} -->
+        <!--       0, &  \textrm{distance}(p,S^U_i) < d  \\ -->
+        <!--       \infty, & \textrm{ otherwise} \\ -->
+        <!--     \end{array} -->
+        <!--     \right. -->
+        <!--     \label{eq:theta} -->
+        <!--   \end{equation} -->
+        <!--   </p> -->
+	<!--   <br /> -->
+	<!--   <p> -->
+        <!--   \begin{equation} \Phi_{pq}(S^V_i , S^V_j) = \left\{ -->
+        <!--     \begin{array}{lcr} -->
+        <!--       0, & i = j \\ -->
+        <!--       \infty, & \{ S^U_i, S^U_j \} \notin \mathcal{A}^U  \\ -->
+        <!--       g( p, q ), & \{ S^U_i, S^U_j \} \in \mathcal{A}^U \\ -->
+        <!--     \end{array} -->
+        <!--     \right. , -->
+        <!--     \label{eq:phi} -->
+        <!--   \end{equation} -->
+        <!--   </p> -->
+	<!-- </section> -->
 
 	<section data-state="playvideo">
           <video id="alpha-beta" height="300" src="fig/alpha-beta.webm" autobuffer>
@@ -204,7 +204,7 @@
 	  <section>
 	    <h3>Update Energy Terms</h3>
 	    <p style="text-align: left;">Update the unary term to allow $S^V_k$ to be
-	    labeled by its neighbors:<br />
+	    reassigned to its neighbors:<br />
 	      \begin{equation}\label{eq:remove}
                 \begin{aligned}
                   \forall p \in S^V_k ,& \quad \Theta_p(\tilde{S}^V_i) = \left\{
@@ -295,7 +295,7 @@
 	</section>
 
 	<section>
-	  <h1>Parameter Estimation</h1>
+	  <h1>Parameter <br /> Estimation</h1>
 	</section>
 
 	<section>
