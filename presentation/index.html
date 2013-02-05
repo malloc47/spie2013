@@ -88,24 +88,29 @@
 
 	<section>
 	  <img src="../fig/dd.png" alt="Propagation" style="border:none; box-shadow:none;">
-	</section>
-
-	<section>
-	  <h3>Notation</h3>
 	  <table>
-	    <tr> <td>$U$</td><td>: Source image that is segmented</td> </tr>
+            <tr> <td>$U$</td><td>: Source image that is segmented</td> </tr>
 	    <tr> <td>$V$</td> <td>: Target image that is not segmented</td> </tr>
 	    <tr> <td>$S^U, S^V$</td> <td>: Segmentation of $U$ or $V$ respectivesly</td> </tr>
-	  </table><br />
-	  <p>A segmentation $S^U$ is a <em>partition</em> of the pixels in $U$:<br /><br />
-	    \[S^U = \{ S^U_1, S^U_2, \ldots, S^U_n \}  \]
-	  \[ U = \bigcup_{i=1}^{n} S^U_i \] </p>
+	  </table>
 	</section>
+
+	<!-- <section> -->
+	<!--   <h3>Notation</h3> -->
+	<!--   <table> -->
+	<!--     <tr> <td>$U$</td><td>: Source image that is segmented</td> </tr> -->
+	<!--     <tr> <td>$V$</td> <td>: Target image that is not segmented</td> </tr> -->
+	<!--     <tr> <td>$S^U, S^V$</td> <td>: Segmentation of $U$ or $V$ respectivesly</td> </tr> -->
+	<!--   </table><br /> -->
+	<!--   <p>A segmentation $S^U$ is a <em>partition</em> of the pixels in $U$:<br /><br /> -->
+	<!--     \[S^U = \{ S^U_1, S^U_2, \ldots, S^U_n \}  \] -->
+	<!--   \[ U = \bigcup_{i=1}^{n} S^U_i \] </p> -->
+	<!-- </section> -->
 
 	<section>
 	  <h3>Propagation</h3>
 
-	  <p>We wish to obtain $S^V$ by propagating $S^U$ to $V$</p><br />
+	  <p>Obtain $S^V$ by propagating $S^U$ to $V$</p><br />
 
 	  <p>In our previous work, this was done by using an energy minimization of the form<br /><br />
 	  \begin{equation}
@@ -240,13 +245,14 @@
 	    <h3>Addition Input</h3>
 	    <p style="text-align: left;">Require three elements:</p>
 	    <ul>
-	      <li><strong>Center</strong> point $c$ for new region</li>
+	      <li><strong>Center</strong> point $c$ for new
+	      segment</li>
 	      <li><strong>Seed</strong> radius $s$ around the center
-	        point which results in a region that is completely
-	        contained within the desired grain</li>
+	        point which is completely contained within the desired
+	        grain</li>
 	      <li><strong>Dilation</strong> radius $d$ around the
-	        center point which results in a region completely
-	        covering the desired grain</li>
+	        center point which completely covers the desired
+	        grain</li>
 	    </ul>
 	  </section>
 	  <section>
@@ -335,6 +341,27 @@
         <section>
 	  <h3>Time</h3>
           <img src="../fig/eval_time.png" height="500" style="border:none;">
+	</section>
+
+        <section>
+	  <h3>Qualitative Results</h3>
+          <img src="../fig/qual/a1.png" width="125" style="border:none;">
+          <img src="../fig/qual/a2.png" width="125" style="border:none;">
+          <img src="../fig/qual/a3.png" width="125" style="border:none;">
+
+          <img src="../fig/qual/d1.png" width="125" style="border:none;">
+          <img src="../fig/qual/d2.png" width="125" style="border:none;">
+          <img src="../fig/qual/d3.png" width="125" style="border:none;">
+
+          <br />
+
+          <img src="../fig/qual/f1.png" width="125" style="border:none;">
+          <img src="../fig/qual/f2.png" width="125" style="border:none;">
+          <img src="../fig/qual/f3.png" width="125" style="border:none;">
+
+          <img src="../fig/qual/j1.png" width="125" style="border:none;">
+          <img src="../fig/qual/j2.png" width="125" style="border:none;">
+          <img src="../fig/qual/j3.png" width="125" style="border:none;">
 	</section>
 
         <section>
