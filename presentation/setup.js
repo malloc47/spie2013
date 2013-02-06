@@ -34,7 +34,7 @@ $(document).ready(function() {
         };
     }
 
-    Reveal.addEventListener( 'playvideo', function() {
+/*    Reveal.addEventListener( 'playvideo', function() {
         var video = document.getElementById("alpha-beta");
         video.currentTime = 0;
         if (video.paused) {video.play();}
@@ -45,13 +45,7 @@ $(document).ready(function() {
             var video = document.getElementById("alpha-beta");
             if (!video.paused) {video.pause();}
         }
-    });
-
-    $('#remu, #remv').data('view',false);
-
-    $('#remu, #remv').bind("contextmenu",function(e) {
-        e.preventDefault();
-    });
+    }); */
 
     remu = new embed.Workspace($('#remu'),'c3-demo','0','none');
     remv = new embed.Workspace($('#remv'),'c3-demo','1','removal',5,15);

@@ -27,6 +27,7 @@
     </script>
     <script type="text/javascript" src="mathjax/MathJax.js"></script>
     <script type="text/javascript" src="jquery-1.9.0.min.js"></script>
+    <!-- <script type="text/javascript" src="jquery.coords.js"></script> -->
     <style type="text/css">
     </style>
     <!--[if lt IE 9]>
@@ -58,16 +59,14 @@
         <section>
 	  <h3>Interactive Segmentation?</h3>
           <ul>
-            <li>Constrasted with fully-automatic segmentation</li>
-            <li>Incorporates a sparse number of user interactions as
-            additional constraints or guidance in the segmentation
-            process</li>
-            <li>Examples from related literature to identify an object
-            of interest include:
+            <li>Contrast with fully-automatic segmentation</li>
+            <li>Sparse number of user interactions as additional
+            constraints or guidance in the segmentation process</li>
+            <li>Other interactive segmentation methods use:
               <ul>
-                <li>Drawing a bounding box</li>
-                <li>Coarsly outling the desired boundary</li>
-                <li>Identifying regions of foreground/background</li>
+                <li>Bounding boxes</li>
+                <li>Coarse outlining of the desired boundary</li>
+                <li>"Scribbling" foreground/background regions</li>
               </ul>
             </li>
           </ul>
@@ -77,12 +76,13 @@
 	  <h3>Our Approach</h3>
           <ul>
             <li>Build on our previous <strong>propagation</strong>
-            method which only used a single initialization</li>
+            method</li>
             <li>Correct errors after every propagation with
             a <strong>single point</strong> (click) as the
             user-supplied interaction</li>
-            <li>Reduce manual labor as much as possible (few clicks)
-            while improving quality of the segmentation</li>
+            <li>Reduce having to draw individual boundaries</li>
+            <!-- <li>Reduce manual labor as much as possible (few clicks) -->
+            <!-- while improving quality of the segmentation</li> -->
           </ul>
 	</section>
 
@@ -110,13 +110,19 @@
 	<section>
 	  <h3>Propagation</h3>
 
-	  <p>Obtain $S^V$ by propagating $S^U$ to $V$</p><br />
+	  <ul>
+            <li>Obtain $S^V$ by propagating
+	  $S^U$ to $V$</li>
 
-	  <p>In our previous work, this was done by using an energy minimization of the form<br /><br />
+	  <li><p style="text-align: left;">In our previous work, this was
+	  done by using an energy of the form<br /><br />
 	  \begin{equation}
 	  E( S^V ) = \sum_{p\in V}\Theta_p(S^V_i) + 
 	  \sum_{\{p,q\}\in\mathcal{P}^V_n} \Phi_{pq}(S_i^V , S_j^V)
 	  \end{equation}</p>
+          <p style="text-align: left;">which can be minimized by the
+          min-cut max-flow graph cut algorithm</p></li>
+          </ul>
 	</section>
 
 	<!-- <section> -->
@@ -130,7 +136,6 @@
         <!--       \infty, & \textrm{ otherwise} \\ -->
         <!--     \end{array} -->
         <!--     \right. -->
-        <!--     \label{eq:theta} -->
         <!--   \end{equation} -->
         <!--   </p> -->
 	<!--   <br /> -->
@@ -142,21 +147,21 @@
         <!--       g( p, q ), & \{ S^U_i, S^U_j \} \in \mathcal{A}^U \\ -->
         <!--     \end{array} -->
         <!--     \right. , -->
-        <!--     \label{eq:phi} -->
         <!--   \end{equation} -->
         <!--   </p> -->
 	<!-- </section> -->
 
-	<section data-state="playvideo">
-          <video id="alpha-beta" height="300" src="fig/alpha-beta.webm" autobuffer>
-	    <img src="../fig/dd.png" alt="Propagation" style="border:none; box-shadow:none;">
-          </video>
-	</section>
+	<!-- <section data-state="playvideo"> -->
+        <!--   <video id="alpha-beta" height="300" src="fig/alpha-beta.webm" autobuffer> -->
+	<!--     <img src="../fig/dd.png" alt="Propagation" style="border:none; box-shadow:none;"> -->
+        <!--   </video> -->
+	<!-- </section> -->
 
 	<section>
 	  <h3>Limitations</h3>
 	  <ul>
-	    <li>Must use heuristics to determine where to add new segments</li>
+	    <li>Minimizes a fixed set of segments: must use heuristics
+	    to determine where to add new segments</li>
 	    <li>Topology constraints may not allow the removal of some
 	    segments</li>
 	  </ul>
@@ -205,7 +210,7 @@
 	    <h3>Update Energy Terms</h3>
 	    <p style="text-align: left;">Update the unary term to allow $S^V_k$ to be
 	    reassigned to its neighbors:<br />
-	      \begin{equation}\label{eq:remove}
+	      \begin{equation}
                 \begin{aligned}
                   \forall p \in S^V_k ,& \quad \Theta_p(\tilde{S}^V_i) = \left\{
                   \begin{array}{lcr}
@@ -219,10 +224,10 @@
 	  </section>
 	</section>
 
-	<section>
-	  <h3>Removal Algorithm</h3>
-	  <img src="fig/alg1.png" style="border:none;">
-	</section>
+	<!-- <section> -->
+	<!--   <h3>Removal Algorithm</h3> -->
+	<!--   <img src="fig/alg1.png" style="border:none;"> -->
+	<!-- </section> -->
 
 	<section>
 	  <h3>Removal: Live Demo</h3>
@@ -243,7 +248,7 @@
 	<section>
 	  <section>
 	    <h3>Addition Input</h3>
-	    <p style="text-align: left;">Require three elements:</p>
+	    <p style="text-align: left;">Require three inputs:</p>
 	    <ul>
 	      <li><strong>Center</strong> point $c$ for new
 	      segment</li>
@@ -263,7 +268,6 @@
 	  <section>
 	    <h3>Update Energy Terms</h3> 
             <p>\begin{equation}
-              \label{eq:d}
               \Theta_p(\tilde{S}^V_{n+1}) = \left\{
                 \begin{array}{lcr}
                   0, & \| p - c \| \leq d  \\
@@ -272,7 +276,6 @@
               \right.
             \end{equation}
             \begin{equation}
-              \label{eq:s}
               \Theta_p(\tilde{S}^V_i) = \left\{
                 \begin{array}{lcr}
                   \infty, & \| p - c \| \leq s \textrm{ and } i \neq n+1  \\
@@ -283,10 +286,10 @@
 	  </section>
 	</section>
 
-	<section>
-	  <h3>Addition Algorithm</h3>
-	  <img src="fig/alg2.png" style="border:none;">
-	</section>
+	<!-- <section> -->
+	<!--   <h3>Addition Algorithm</h3> -->
+	<!--   <img src="fig/alg2.png" style="border:none;"> -->
+	<!-- </section> -->
 
 	<section>
 	  <h3>Addition: Live Demo</h3>
@@ -295,7 +298,7 @@
 	</section>
 
 	<section>
-	  <h1>Parameter <br /> Estimation</h1>
+	  <h1>Parameter <br />Estimation</h1>
 	</section>
 
 	<section>
