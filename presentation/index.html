@@ -87,7 +87,7 @@
 	</section>
 
 	<section>
-	  <img src="../fig/dd.png" alt="Propagation" style="border:none; box-shadow:none;">
+	  <img src="fig/dd.png" alt="Propagation" style="border:none; box-shadow:none;">
 	  <table>
             <tr> <td>$U$</td><td>: Source image that is segmented</td> </tr>
 	    <tr> <td>$V$</td> <td>: Target image that is not segmented</td> </tr>
@@ -125,31 +125,31 @@
           </ul>
 	</section>
 
-	<!-- <section> -->
-	<!--   <h3>Unary and Binary Terms</h3> -->
-	<!--   <br /> -->
-	<!--   <p> -->
-        <!--   \begin{equation} -->
-        <!--     \Theta_p(S^{V}_i) = \left\{ -->
-        <!--     \begin{array}{lcr} -->
-        <!--       0, &  \textrm{distance}(p,S^U_i) < d  \\ -->
-        <!--       \infty, & \textrm{ otherwise} \\ -->
-        <!--     \end{array} -->
-        <!--     \right. -->
-        <!--   \end{equation} -->
-        <!--   </p> -->
-	<!--   <br /> -->
-	<!--   <p> -->
-        <!--   \begin{equation} \Phi_{pq}(S^V_i , S^V_j) = \left\{ -->
-        <!--     \begin{array}{lcr} -->
-        <!--       0, & i = j \\ -->
-        <!--       \infty, & \{ S^U_i, S^U_j \} \notin \mathcal{A}^U  \\ -->
-        <!--       g( p, q ), & \{ S^U_i, S^U_j \} \in \mathcal{A}^U \\ -->
-        <!--     \end{array} -->
-        <!--     \right. , -->
-        <!--   \end{equation} -->
-        <!--   </p> -->
-	<!-- </section> -->
+	<section>
+	  <h3>Unary and Binary Terms</h3>
+	  <br />
+	  <p>
+          \begin{equation}
+            \Theta_p(S^{V}_i) = \left\{
+            \begin{array}{lcr}
+              0, &  \textrm{distance}(p,S^U_i) < d  \\
+              \infty, & \textrm{ otherwise} \\
+            \end{array}
+            \right.
+          \end{equation}
+          </p>
+	  <br />
+	  <p>
+          \begin{equation} \Phi_{pq}(S^V_i , S^V_j) = \left\{
+            \begin{array}{lcr}
+              0, & i = j \\
+              \infty, & \{ S^U_i, S^U_j \} \notin \mathcal{A}^U  \\
+              g( p, q ), & \{ S^U_i, S^U_j \} \in \mathcal{A}^U \\
+            \end{array}
+            \right. ,
+          \end{equation}
+          </p>
+	</section>
 
 	<!-- <section data-state="playvideo"> -->
         <!--   <video id="alpha-beta" height="300" src="fig/alpha-beta.webm" autobuffer> -->
@@ -185,9 +185,9 @@
 	</section>
 
 	<section>
-	  <img src="../fig/p-aaa.png" height="260" style="border:none; box-shadow:none;">
-	  <img src="../fig/aad.png" height="260" style="border:none; box-shadow:none;">
-	  <img src="../fig/aac.png" height="260" style="border:none; box-shadow:none;">
+	  <img src="fig/p-aaa.png" height="260" style="border:none; box-shadow:none;">
+	  <img src="fig/aad.png" height="260" style="border:none; box-shadow:none;">
+	  <img src="fig/aac.png" height="260" style="border:none; box-shadow:none;">
 	</section>
 
 	<section>
@@ -224,25 +224,25 @@
 	  </section>
 	</section>
 
-	<!-- <section> -->
-	<!--   <h3>Removal Algorithm</h3> -->
-	<!--   <img src="fig/alg1.png" style="border:none;"> -->
-	<!-- </section> -->
-
 	<section>
-	  <h3>Removal: Live Demo</h3>
-          <img id="remu" height="250" src="http://127.0.0.1:8000/raw/?dataset=c3&slice=1" style="border:none;">
-          <img id="remv" height="250" src="http://127.0.0.1:8000/raw/?dataset=c3&slice=3" style="border:none;">
+	  <h3>Removal Algorithm</h3>
+	  <img src="fig/alg1.png" style="border:none;">
 	</section>
+
+	<!-- <section> -->
+	<!--   <h3>Removal: Live Demo</h3> -->
+        <!--   <img id="remu" height="250" src="http://127.0.0.1:8000/raw/?dataset=c3&slice=1" style="border:none;"> -->
+        <!--   <img id="remv" height="250" src="http://127.0.0.1:8000/raw/?dataset=c3&slice=3" style="border:none;"> -->
+	<!-- </section> -->
 
 	<section>
 	  <h1>Addition</h1>
 	</section>
 
 	<section>
-	  <img src="../fig/bba.png" height="260" style="border:none; box-shadow:none;">
-	  <img src="../fig/p-bbb.png" height="260" style="border:none; box-shadow:none;">
-	  <img src="../fig/bbd.png" height="260" style="border:none; box-shadow:none;">
+	  <img src="fig/bba.png" height="260" style="border:none; box-shadow:none;">
+	  <img src="fig/p-bbb.png" height="260" style="border:none; box-shadow:none;">
+	  <img src="fig/bbd.png" height="260" style="border:none; box-shadow:none;">
 	</section>
 
 	<section>
@@ -286,16 +286,16 @@
 	  </section>
 	</section>
 
-	<!-- <section> -->
-	<!--   <h3>Addition Algorithm</h3> -->
-	<!--   <img src="fig/alg2.png" style="border:none;"> -->
-	<!-- </section> -->
-
 	<section>
-	  <h3>Addition: Live Demo</h3>
-          <img id="addu" height="300" src="http://127.0.0.1:8000/raw/?dataset=c3&slice=1" style="border:none;">
-          <img id="addv" height="300" src="http://127.0.0.1:8000/raw/?dataset=c3&slice=3" style="border:none;">
+	  <h3>Addition Algorithm</h3>
+	  <img src="fig/alg2.png" style="border:none;">
 	</section>
+
+	<!-- <section> -->
+	<!--   <h3>Addition: Live Demo</h3> -->
+        <!--   <img id="addu" height="300" src="http://127.0.0.1:8000/raw/?dataset=c3&slice=1" style="border:none;"> -->
+        <!--   <img id="addv" height="300" src="http://127.0.0.1:8000/raw/?dataset=c3&slice=3" style="border:none;"> -->
+	<!-- </section> -->
 
 	<section>
 	  <h1>Parameter <br />Estimation</h1>
@@ -320,11 +320,11 @@
 
 	<section>
 	  <h3>Parameter Estimation Visual Example</h3>
-          <img src="../fig/p-cca.png" height="260" style="border:none; box-shadow:none;">
-	  <img src="../fig/p-ccf.png" height="260" style="border:none; box-shadow:none;">
+          <img src="fig/p-cca.png" height="260" style="border:none; box-shadow:none;">
+	  <img src="fig/p-ccf.png" height="260" style="border:none; box-shadow:none;">
           <br />
-	  <img src="../fig/p-ccg.png" height="260" style="border:none; box-shadow:none;">
-	  <img src="../fig/p-ccb.png" height="260" style="border:none; box-shadow:none;">
+	  <img src="fig/p-ccg.png" height="260" style="border:none; box-shadow:none;">
+	  <img src="fig/p-ccb.png" height="260" style="border:none; box-shadow:none;">
 	</section>
 
 	<section>
@@ -348,23 +348,23 @@
 
         <section>
 	  <h3>Qualitative Results</h3>
-          <img src="../fig/qual/a1.png" width="125" style="border:none;">
-          <img src="../fig/qual/a2.png" width="125" style="border:none;">
-          <img src="../fig/qual/a3.png" width="125" style="border:none;">
+          <img src="fig/qual/a1.png" width="125" style="border:none;">
+          <img src="fig/qual/a2.png" width="125" style="border:none;">
+          <img src="fig/qual/a3.png" width="125" style="border:none;">
 
-          <img src="../fig/qual/d1.png" width="125" style="border:none;">
-          <img src="../fig/qual/d2.png" width="125" style="border:none;">
-          <img src="../fig/qual/d3.png" width="125" style="border:none;">
+          <img src="fig/qual/d1.png" width="125" style="border:none;">
+          <img src="fig/qual/d2.png" width="125" style="border:none;">
+          <img src="fig/qual/d3.png" width="125" style="border:none;">
 
           <br />
 
-          <img src="../fig/qual/f1.png" width="125" style="border:none;">
-          <img src="../fig/qual/f2.png" width="125" style="border:none;">
-          <img src="../fig/qual/f3.png" width="125" style="border:none;">
+          <img src="fig/qual/f1.png" width="125" style="border:none;">
+          <img src="fig/qual/f2.png" width="125" style="border:none;">
+          <img src="fig/qual/f3.png" width="125" style="border:none;">
 
-          <img src="../fig/qual/j1.png" width="125" style="border:none;">
-          <img src="../fig/qual/j2.png" width="125" style="border:none;">
-          <img src="../fig/qual/j3.png" width="125" style="border:none;">
+          <img src="fig/qual/j1.png" width="125" style="border:none;">
+          <img src="fig/qual/j2.png" width="125" style="border:none;">
+          <img src="fig/qual/j3.png" width="125" style="border:none;">
 	</section>
 
         <section>
